@@ -2,90 +2,76 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>俄罗斯方块</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { 
-    background: #0a0a1a; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; 
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #0a0a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Segoe UI', Arial, sans-serif;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
-    touch-action: manipulation;
+    touch-action: none;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 #app {
     width: 100%;
     max-width: 480px;
-    padding: 12px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    height: 100vh;
+    height: 100dvh;
+    justify-content: center;
 }
+* { -webkit-tap-highlight-color: transparent; }
 
-/* ========== 主界面 ========== */
+/* ===== 主界面 ===== */
 #mainMenu {
     width: 100%;
     max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 30px 20px;
+    gap: 14px;
+    padding: 20px 16px;
 }
 #mainMenu.hidden { display: none; }
-#mainMenu .logo {
-    font-size: 42px;
-    font-weight: 900;
-    color: #f5a623;
-    letter-spacing: 4px;
-    text-shadow: 0 0 30px rgba(245,166,35,0.2);
-    margin-bottom: 10px;
-}
-#mainMenu .subtitle {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
+#mainMenu .logo { font-size: 38px; font-weight: 900; color: #f5a623; letter-spacing: 4px; text-shadow: 0 0 30px rgba(245,166,35,0.2); }
+#mainMenu .subtitle { color: #888; font-size: 13px; margin-bottom: 10px; }
 #mainMenu .menu-btn {
-    width: 100%;
-    padding: 16px;
-    font-size: 20px;
-    font-weight: 700;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: 0.2s;
-    background: #16213e;
-    color: #e0e0e0;
-    border: 2px solid #0f3460;
+    width: 100%; padding: 14px; font-size: 18px; font-weight: 700;
+    border: none; border-radius: 12px; cursor: pointer; touch-action: manipulation;
+    background: #16213e; color: #e0e0e0; border: 2px solid #0f3460;
+    transition: 0.15s;
 }
 #mainMenu .menu-btn:active { transform: scale(0.96); }
-#mainMenu .menu-btn.primary {
-    background: #e94560;
-    border-color: #e94560;
-    color: #fff;
-}
-#mainMenu .menu-btn.primary:hover { background: #c73652; }
-#mainMenu .menu-btn.secondary:hover { background: #1a4f7a; }
+#mainMenu .menu-btn.primary { background: #e94560; border-color: #e94560; color: #fff; }
 
-/* ========== 游戏界面 ========== */
+/* ===== 游戏界面 ===== */
 #gameView {
     width: 100%;
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+    padding: 4px 0;
 }
 #gameView.active { display: flex; }
-
 .game-topbar {
     display: flex;
     justify-content: space-between;
@@ -94,516 +80,253 @@ body {
     max-width: 360px;
     padding: 0 4px;
 }
-.game-topbar .title {
-    color: #e0e0e0;
-    font-size: 18px;
-    font-weight: 700;
-}
+.game-topbar .title { color: #e0e0e0; font-size: 16px; font-weight: 700; }
 .game-topbar .top-btn {
-    background: #0f3460;
-    color: #e0e0e0;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    cursor: pointer;
-    touch-action: manipulation;
+    background: #0f3460; color: #e0e0e0; border: none;
+    padding: 5px 12px; border-radius: 6px; font-size: 12px;
+    cursor: pointer; touch-action: manipulation;
 }
-.game-topbar .top-btn:active { transform: scale(0.95); }
-
+.game-topbar .top-btn:active { transform: scale(0.94); }
 .game-wrapper {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    flex-wrap: wrap;
+    max-width: 400px;
 }
 .canvas-container {
     position: relative;
     flex-shrink: 0;
+    touch-action: none;
 }
 #gameCanvas {
-    background: #0f0f1f; 
-    border: 3px solid #0f3460; 
+    background: #0f0f1f;
+    border: 3px solid #0f3460;
     border-radius: 8px;
     display: block;
     touch-action: none;
     width: 100%;
     height: auto;
     aspect-ratio: 10 / 20;
-    max-width: 300px;
+    max-width: 280px;
 }
 .info-panel {
     color: #e0e0e0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 100px;
+    gap: 6px;
+    min-width: 80px;
     flex: 1;
-    max-width: 160px;
+    max-width: 130px;
 }
-.stat-box { 
-    background: #0f0f1f; 
-    padding: 8px 12px; 
-    border-radius: 8px; 
+.stat-box {
+    background: #0f0f1f;
+    padding: 6px 10px;
+    border-radius: 8px;
     text-align: center;
     border: 2px solid #0f3460;
 }
-.stat-box .label { font-size: 11px; color: #aaa; }
-.stat-box .score { font-size: 22px; font-weight: bold; color: #f5a623; }
-.stat-box .highscore { font-size: 18px; font-weight: bold; color: #4fc3f7; }
-.next-box { padding: 6px; }
-.next-box canvas { 
-    margin: 4px auto; 
-    border: none; 
-    background: #0f0f1f; 
-    display: block;
-    width: 100%;
-    max-width: 90px;
-    height: auto;
-    aspect-ratio: 1 / 1;
-}
+.stat-box .label { font-size: 10px; color: #aaa; }
+.stat-box .score { font-size: 20px; font-weight: bold; color: #f5a623; }
+.stat-box .highscore { font-size: 16px; font-weight: bold; color: #4fc3f7; }
+.next-box { padding: 4px; }
+.next-box canvas { margin: 2px auto; border: none; background: #0f0f1f; display: block; width: 100%; max-width: 80px; height: auto; aspect-ratio: 1 / 1; }
 
-/* ========== 虚拟键盘（手机） ========== */
+/* ===== 虚拟键盘 ===== */
 #virtualKeyboard {
     display: none;
-    gap: 5px;
+    gap: 4px;
     width: 100%;
-    max-width: 340px;
-    margin-top: 4px;
+    max-width: 320px;
+    margin-top: 2px;
+    touch-action: none;
 }
 #virtualKeyboard.active { display: flex; flex-direction: column; }
-.vk-row {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-}
+.vk-row { display: flex; gap: 4px; justify-content: center; }
 .vk-btn {
-    background: #0f3460;
-    color: white;
-    border: none;
-    padding: 14px 0;
-    font-size: 26px;
-    border-radius: 10px;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: 0.1s;
-    flex: 1;
-    min-height: 52px;
-    font-weight: bold;
-    text-align: center;
-    position: relative;
+    background: #0f3460; color: white; border: none;
+    padding: 12px 0; font-size: 22px; border-radius: 10px;
+    cursor: pointer; touch-action: none; flex: 1; min-height: 44px;
+    font-weight: bold; text-align: center; transition: 0.08s;
+    -webkit-touch-callout: none; position: relative;
 }
-.vk-btn:active {
-    background: #1a4f7a;
-    transform: scale(0.92);
-}
+.vk-btn:active { background: #1a4f7a; transform: scale(0.92); }
 .vk-btn.wide { flex: 1.8; }
-.vk-btn .sub { font-size: 10px; display: block; color: #88aacc; }
-.vk-btn .hold-indicator {
-    position: absolute;
-    bottom: 2px;
-    right: 6px;
-    font-size: 10px;
-    color: #f5a623;
-    display: none;
-}
+.vk-btn .sub { font-size: 9px; display: block; color: #88aacc; }
+.vk-btn .hold-indicator { position: absolute; bottom: 2px; right: 6px; font-size: 10px; color: #f5a623; display: none; }
 .vk-btn.holding .hold-indicator { display: block; }
 
-/* ========== 暂停菜单 ========== */
-#pauseOverlay {
+/* ===== 圆形作弊钥匙 ===== */
+#cheatKey {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 90px;
+    right: 16px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #f5a623, #c77d1e);
+    border: 3px solid #f5a623;
+    box-shadow: 0 4px 20px rgba(245,166,35,0.4), inset 0 -3px 8px rgba(0,0,0,0.3);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    z-index: 400;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+#cheatKey:active { transform: scale(0.88); }
+#cheatKey.show { display: flex; }
+#cheatKey .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #e94560;
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #0a0a1a;
+}
+#cheatKey.pulse { animation: keyPulse 0.6s ease; }
+@keyframes keyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); box-shadow: 0 0 40px rgba(245,166,35,0.8); }
+    100% { transform: scale(1); }
+}
+
+/* ===== 弹窗通用 ===== */
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0,0,0,0.85);
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 500;
-    padding: 20px;
+    padding: 16px;
 }
-#pauseOverlay.active { display: flex; }
-.pause-box {
+.overlay.active { display: flex; }
+.modal-box {
     background: #16213e;
     border-radius: 16px;
     border: 2px solid #0f3460;
-    padding: 30px 28px;
-    max-width: 360px;
-    width: 100%;
-}
-.pause-box h2 {
-    color: #f5a623;
-    font-size: 26px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.pause-box .pause-btn {
-    width: 100%;
-    padding: 14px;
-    margin: 6px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: 0.2s;
-    background: #0f3460;
-    color: #e0e0e0;
-}
-.pause-box .pause-btn:active { transform: scale(0.96); }
-.pause-box .pause-btn.primary { background: #e94560; color: #fff; }
-.pause-box .pause-btn.danger { background: #6a1a2a; color: #ff6b6b; }
-.pause-box .pause-btn.secondary:hover { background: #1a4f7a; }
-
-/* ========== 设置面板 ========== */
-#settingsOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 550;
-    padding: 20px;
-}
-#settingsOverlay.active { display: flex; }
-.settings-box {
-    background: #16213e;
-    border-radius: 16px;
-    border: 2px solid #0f3460;
-    padding: 28px 24px;
+    padding: 24px 20px;
     max-width: 380px;
-    width: 100%;
-}
-.settings-box h2 {
-    color: #f5a623;
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 18px;
-}
-.settings-box .setting-item {
-    margin: 14px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-.settings-box .setting-item label {
-    color: #e0e0e0;
-    font-size: 15px;
-}
-.settings-box .setting-item input[type="range"] {
-    flex: 1;
-    min-width: 120px;
-    accent-color: #e94560;
-    background: #0f0f1f;
-    height: 4px;
-}
-.settings-box .setting-item .value {
-    color: #f5a623;
-    font-weight: bold;
-    min-width: 40px;
-    text-align: right;
-}
-.settings-box .setting-item select {
-    background: #0f0f1f;
-    color: #e0e0e0;
-    border: 2px solid #0f3460;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-}
-.settings-box .settings-close {
-    width: 100%;
-    padding: 12px;
-    margin-top: 16px;
-    background: #e94560;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    touch-action: manipulation;
-}
-.settings-box .settings-close:active { transform: scale(0.96); }
-
-/* ========== 帮助面板 ========== */
-#helpOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.88);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 600;
-    padding: 20px;
-}
-#helpOverlay.active { display: flex; }
-.help-box {
-    background: #16213e;
-    border-radius: 16px;
-    border: 2px solid #0f3460;
-    padding: 28px 24px;
-    max-width: 440px;
     width: 100%;
     max-height: 85vh;
     overflow-y: auto;
-    position: relative;
 }
-.help-box::-webkit-scrollbar { width: 4px; }
-.help-box::-webkit-scrollbar-thumb { background: #0f3460; border-radius: 4px; }
-.help-box .close-help {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    background: none;
-    border: none;
-    color: #888;
-    font-size: 28px;
-    cursor: pointer;
+.modal-box h2 { color: #f5a623; font-size: 22px; text-align: center; margin-bottom: 16px; }
+.modal-box .modal-btn {
+    width: 100%; padding: 12px; margin: 4px 0;
+    font-size: 16px; font-weight: 600;
+    border: none; border-radius: 10px;
+    cursor: pointer; touch-action: manipulation;
+    background: #0f3460; color: #e0e0e0;
 }
-.help-box .close-help:hover { color: #fff; }
-.help-box h2 {
-    color: #f5a623;
-    font-size: 22px;
-    margin-bottom: 14px;
-    text-align: center;
-}
-.help-section {
-    margin-bottom: 14px;
-}
-.help-section h3 {
-    color: #4fc3f7;
-    font-size: 15px;
-    margin-bottom: 4px;
-}
-.help-section p, .help-section li {
-    color: #ccc;
-    font-size: 13px;
-    line-height: 1.7;
-}
-.help-section ul {
-    padding-left: 16px;
-    list-style: none;
-}
-.help-section ul li::before {
-    content: "▸ ";
-    color: #e94560;
-}
-.help-section kbd {
-    background: #0f0f1f;
-    padding: 1px 8px;
-    border-radius: 4px;
-    color: #ddd;
-    font-family: monospace;
-    font-size: 12px;
-    border: 1px solid #333;
-}
-.help-divider {
-    border: none;
-    border-top: 1px solid #1a1a3e;
-    margin: 12px 0;
-}
+.modal-box .modal-btn:active { transform: scale(0.96); }
+.modal-box .modal-btn.primary { background: #e94560; color: #fff; }
+.modal-box .modal-btn.danger { background: #6a1a2a; color: #ff6b6b; }
 
-/* ========== 作弊菜单 ========== */
-#cheatOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 700;
-    padding: 20px;
+/* ===== 设置 ===== */
+.setting-item { margin: 12px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+.setting-item label { color: #e0e0e0; font-size: 14px; }
+.setting-item input[type="range"] { flex: 1; min-width: 100px; accent-color: #e94560; height: 4px; }
+.setting-item .value { color: #f5a623; font-weight: bold; min-width: 40px; text-align: right; }
+.setting-item select { background: #0f0f1f; color: #e0e0e0; border: 2px solid #0f3460; padding: 5px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+
+/* ===== 帮助 ===== */
+.help-section { margin-bottom: 12px; }
+.help-section h3 { color: #4fc3f7; font-size: 14px; margin-bottom: 3px; }
+.help-section p, .help-section li { color: #ccc; font-size: 13px; line-height: 1.6; }
+.help-section ul { padding-left: 16px; list-style: none; }
+.help-section ul li::before { content: "▸ "; color: #e94560; }
+.help-section kbd { background: #0f0f1f; padding: 1px 8px; border-radius: 4px; color: #ddd; font-family: monospace; font-size: 12px; border: 1px solid #333; }
+.help-divider { border: none; border-top: 1px solid #1a1a3e; margin: 10px 0; }
+
+/* ===== 作弊菜单（圆形展开） ===== */
+#cheatMenuOverlay {
+    z-index: 600;
 }
-#cheatOverlay.active { display: flex; }
-.cheat-box {
-    background: #16213e;
-    padding: 28px 24px;
-    border-radius: 16px;
-    border: 2px solid #e94560;
-    max-width: 380px;
-    width: 100%;
+#cheatMenuOverlay .modal-box {
+    border-color: #f5a623;
+    max-width: 340px;
 }
-.cheat-box h2 {
-    color: #e94560;
-    text-align: center;
-    font-size: 22px;
-    margin-bottom: 14px;
+#cheatMenuOverlay .modal-box h2 {
+    color: #f5a623;
 }
-.cheat-box label {
-    color: #e0e0e0;
-    display: block;
-    margin: 10px 0 4px;
-    font-size: 14px;
-}
-.cheat-box input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    background: #0f0f1f;
-    border: 2px solid #0f3460;
-    color: white;
-    border-radius: 6px;
-    font-size: 15px;
-}
-.cheat-box input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-.cheat-box textarea {
-    width: 100%;
-    height: 70px;
-    background: #0f0f1f;
-    border: 2px solid #0f3460;
-    color: #0f0;
-    border-radius: 6px;
-    padding: 8px;
-    font-family: monospace;
-    font-size: 12px;
-    resize: vertical;
-}
-.cheat-box .cheat-btn {
-    width: 100%;
-    margin: 4px 0;
-    padding: 10px;
-    background: #0f3460;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: bold;
-}
+.cheat-box label { color: #e0e0e0; display: block; margin: 8px 0 3px; font-size: 13px; }
+.cheat-box input[type="number"] { width: 100%; padding: 8px; background: #0f0f1f; border: 2px solid #0f3460; color: white; border-radius: 6px; font-size: 14px; }
+.cheat-box input[type="checkbox"] { width: 18px; height: 18px; margin-left: 8px; cursor: pointer; }
+.cheat-box textarea { width: 100%; height: 60px; background: #0f0f1f; border: 2px solid #0f3460; color: #0f0; border-radius: 6px; padding: 6px; font-family: monospace; font-size: 11px; resize: vertical; }
+.cheat-box .cheat-btn { width: 100%; margin: 3px 0; padding: 8px; background: #0f3460; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: bold; }
 .cheat-box .cheat-btn:active { transform: scale(0.95); }
 .cheat-box .cheat-btn.danger { background: #e94560; }
+.cheat-box .cheat-note { color: #666; font-size: 11px; text-align: center; margin-top: 8px; }
 
-/* ========== Game Over ========== */
-.gameover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    pointer-events: none;
-}
-.gameover-overlay.show {
-    display: flex;
-    pointer-events: auto;
-}
-.gameover-overlay span {
-    color: #e94560;
-    font-size: clamp(22px, 5vw, 40px);
-    font-weight: bold;
-    text-shadow: 0 0 20px rgba(233,69,96,0.5);
-    text-align: center;
-}
+/* ===== Game Over ===== */
+#gameoverOverlay { z-index: 550; }
+#gameoverOverlay .modal-box { border-color: #e94560; }
+#gameoverOverlay .modal-box h2 { color: #e94560; font-size: 28px; }
+#gameoverOverlay .final-score { color: #e0e0e0; text-align: center; font-size: 18px; margin: 10px 0 16px; }
+#gameoverOverlay .final-score span { color: #f5a623; font-weight: 700; font-size: 24px; }
 
-/* ========== 微信彩蛋 ========== */
+/* ===== 微信彩蛋 ===== */
 #wechatEasterEgg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 30px;
-    flex-direction: column;
-    gap: 20px;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); display: none; justify-content: center;
+    align-items: center; z-index: 9999; padding: 24px; flex-direction: column; gap: 16px;
 }
 #wechatEasterEgg.active { display: flex; }
-#wechatEasterEgg .egg-icon {
-    font-size: 72px;
-    animation: pulse 1.2s ease-in-out infinite;
-}
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-}
-#wechatEasterEgg .egg-title {
-    color: #e94560;
-    font-size: 32px;
-    font-weight: 900;
-    text-align: center;
-}
-#wechatEasterEgg .egg-desc {
-    color: #aaa;
-    font-size: 18px;
-    text-align: center;
-    max-width: 400px;
-    line-height: 1.8;
-}
-#wechatEasterEgg .egg-desc .highlight {
-    color: #f5a623;
-    font-weight: 700;
-}
-#wechatEasterEgg .egg-btn {
-    margin-top: 10px;
-    padding: 14px 40px;
-    background: #e94560;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    touch-action: manipulation;
-}
+#wechatEasterEgg .egg-icon { font-size: 64px; animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+#wechatEasterEgg .egg-title { color: #e94560; font-size: 28px; font-weight: 900; text-align: center; }
+#wechatEasterEgg .egg-desc { color: #aaa; font-size: 16px; text-align: center; max-width: 360px; line-height: 1.7; }
+#wechatEasterEgg .egg-desc .highlight { color: #f5a623; font-weight: 700; }
+#wechatEasterEgg .egg-btn { padding: 12px 32px; background: #e94560; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; touch-action: manipulation; min-width: 200px; }
 #wechatEasterEgg .egg-btn:active { transform: scale(0.95); }
-#wechatEasterEgg .egg-btn.secondary {
-    background: #0f3460;
-    border: 2px solid #0f3460;
-}
+#wechatEasterEgg .egg-btn.secondary { background: #0f3460; border: 2px solid #0f3460; }
 
-/* ========== 响应式 ========== */
-@media (max-width: 480px) {
-    .game-topbar .title { font-size: 15px; }
-    .game-topbar .top-btn { font-size: 12px; padding: 5px 12px; }
-    .info-panel .stat-box { padding: 5px 8px; }
-    .info-panel .stat-box .score { font-size: 18px; }
-    .info-panel .stat-box .highscore { font-size: 15px; }
-    .info-panel .next-box canvas { max-width: 70px; }
-    #virtualKeyboard { max-width: 300px; }
-    .vk-btn { font-size: 22px; min-height: 44px; padding: 10px 0; }
-    .pause-box { padding: 20px; }
-    .help-box { padding: 20px 16px; }
-    #wechatEasterEgg .egg-title { font-size: 24px; }
-    #wechatEasterEgg .egg-desc { font-size: 15px; }
-}
-
-@media (max-width: 380px) {
+/* ===== 响应式 ===== */
+@media (max-width: 420px) {
+    #app { padding: 4px; gap: 4px; }
     .game-wrapper { gap: 8px; }
     #gameCanvas { max-width: 220px; }
-    .info-panel { max-width: 100px; min-width: 80px; }
-    .info-panel .stat-box .score { font-size: 15px; }
-    #virtualKeyboard { max-width: 250px; }
+    .info-panel { max-width: 90px; min-width: 70px; }
+    .info-panel .stat-box { padding: 4px 6px; }
+    .info-panel .stat-box .score { font-size: 16px; }
+    .info-panel .stat-box .highscore { font-size: 13px; }
+    .info-panel .next-box canvas { max-width: 60px; }
+    #virtualKeyboard { max-width: 260px; }
     .vk-btn { font-size: 18px; min-height: 38px; padding: 8px 0; }
+    .game-topbar .title { font-size: 14px; }
+    .game-topbar .top-btn { font-size: 11px; padding: 4px 10px; }
+    #mainMenu .logo { font-size: 30px; }
+    #mainMenu .menu-btn { padding: 12px; font-size: 16px; }
+    .modal-box { padding: 18px 14px; }
+    #cheatKey { width: 48px; height: 48px; font-size: 22px; bottom: 80px; right: 12px; }
+}
+@media (max-width: 360px) {
+    #gameCanvas { max-width: 180px; }
+    .info-panel { max-width: 70px; min-width: 60px; }
+    .info-panel .stat-box .score { font-size: 13px; }
+    #virtualKeyboard { max-width: 220px; }
+    .vk-btn { font-size: 15px; min-height: 32px; padding: 6px 0; }
+}
+@media (min-width: 601px) {
+    #virtualKeyboard { display: none !important; }
+    #cheatKey { display: none !important; }
 }
 </style>
 </head>
@@ -615,10 +338,7 @@ body {
     <div id="wechatEasterEgg">
         <div class="egg-icon">🐧</div>
         <div class="egg-title">⚠️ 你访问的可能是盗版</div>
-        <div class="egg-desc">
-            因为<span class="highlight">正常人</span>都会在浏览器里访问<br>
-            微信里玩？你不对劲 🤨
-        </div>
+        <div class="egg-desc">因为<span class="highlight">正常人</span>都会在浏览器里访问<br>微信里玩？你不对劲 🤨</div>
         <button class="egg-btn" onclick="forceCloseEgg()">我就要在微信玩！</button>
         <button class="egg-btn secondary" onclick="copyAndOpenBrowser()">📋 复制链接用浏览器打开</button>
     </div>
@@ -628,8 +348,8 @@ body {
         <div class="logo">俄罗斯方块</div>
         <div class="subtitle">经典永不过时</div>
         <button class="menu-btn primary" onclick="startGame()">▶ 开始游戏</button>
-        <button class="menu-btn secondary" onclick="openSettingsFromMenu()">⚙ 设置</button>
-        <button class="menu-btn secondary" onclick="openHelpFromMenu()">❓ 帮助</button>
+        <button class="menu-btn" onclick="openSettings()">⚙ 设置</button>
+        <button class="menu-btn" onclick="openHelp()">❓ 帮助</button>
     </div>
 
     <!-- ===== 游戏界面 ===== -->
@@ -638,30 +358,16 @@ body {
             <span class="title">俄罗斯方块</span>
             <button class="top-btn" onclick="togglePause()">⏸ 暂停</button>
         </div>
-
         <div class="game-wrapper">
             <div class="canvas-container">
                 <canvas id="gameCanvas" width="300" height="600"></canvas>
-                <div class="gameover-overlay" id="gameoverOverlay">
-                    <span>GAME OVER</span>
-                </div>
             </div>
             <div class="info-panel">
-                <div class="stat-box">
-                    <div class="label">得分</div>
-                    <div class="score" id="scoreDisplay">0</div>
-                </div>
-                <div class="stat-box">
-                    <div class="label">最高纪录</div>
-                    <div class="highscore" id="highScoreDisplay">0</div>
-                </div>
-                <div class="stat-box next-box">
-                    <div class="label">下一个</div>
-                    <canvas id="nextCanvas" width="120" height="120"></canvas>
-                </div>
+                <div class="stat-box"><div class="label">得分</div><div class="score" id="scoreDisplay">0</div></div>
+                <div class="stat-box"><div class="label">最高纪录</div><div class="highscore" id="highScoreDisplay">0</div></div>
+                <div class="stat-box next-box"><div class="label">下一个</div><canvas id="nextCanvas" width="120" height="120"></canvas></div>
             </div>
         </div>
-
         <!-- 虚拟键盘 -->
         <div id="virtualKeyboard">
             <div class="vk-row">
@@ -677,20 +383,36 @@ body {
         </div>
     </div>
 
-    <!-- ===== 暂停菜单 ===== -->
-    <div id="pauseOverlay">
-        <div class="pause-box">
-            <h2>⏸ 暂停</h2>
-            <button class="pause-btn primary" onclick="resumeGame()">▶ 继续游戏</button>
-            <button class="pause-btn secondary" onclick="openHelpFromPause()">❓ 帮助</button>
-            <button class="pause-btn secondary" onclick="openSettingsFromPause()">⚙ 设置</button>
-            <button class="pause-btn danger" onclick="quitGame()">✕ 退出游戏</button>
+    <!-- ===== 圆形作弊钥匙 ===== -->
+    <div id="cheatKey" onclick="openCheatMenu()">
+        🔑
+        <span class="badge" id="cheatBadge">0/5</span>
+    </div>
+
+    <!-- ===== Game Over 弹窗 ===== -->
+    <div class="overlay" id="gameoverOverlay">
+        <div class="modal-box">
+            <h2>💀 你死了！</h2>
+            <div class="final-score">得分：<span id="finalScoreDisplay">0</span></div>
+            <button class="modal-btn primary" onclick="restartAfterDeath()">🔄 重新开始</button>
+            <button class="modal-btn" onclick="backToMenuAfterDeath()">🏠 回到菜单</button>
         </div>
     </div>
 
-    <!-- ===== 设置面板 ===== -->
-    <div id="settingsOverlay">
-        <div class="settings-box">
+    <!-- ===== 暂停 ===== -->
+    <div class="overlay" id="pauseOverlay">
+        <div class="modal-box">
+            <h2>⏸ 暂停</h2>
+            <button class="modal-btn primary" onclick="resumeGame()">▶ 继续游戏</button>
+            <button class="modal-btn" onclick="closePause();openHelp();">❓ 帮助</button>
+            <button class="modal-btn" onclick="closePause();openSettings();">⚙ 设置</button>
+            <button class="modal-btn danger" onclick="quitGame()">✕ 退出游戏</button>
+        </div>
+    </div>
+
+    <!-- ===== 设置 ===== -->
+    <div class="overlay" id="settingsOverlay">
+        <div class="modal-box">
             <h2>⚙ 设置</h2>
             <div class="setting-item">
                 <label>下落速度</label>
@@ -705,795 +427,514 @@ body {
                     <option value="mobile">📱 触控模式</option>
                 </select>
             </div>
-            <button class="settings-close" onclick="closeSettings()">✖ 关闭设置</button>
+            <button class="modal-btn primary" onclick="closeSettings()">✖ 关闭</button>
         </div>
     </div>
 
-    <!-- ===== 帮助面板 ===== -->
-    <div id="helpOverlay">
-        <div class="help-box">
-            <button class="close-help" onclick="closeHelp()">✕</button>
+    <!-- ===== 帮助 ===== -->
+    <div class="overlay" id="helpOverlay">
+        <div class="modal-box">
+            <button style="position:sticky;top:0;float:right;background:none;border:none;color:#888;font-size:24px;cursor:pointer;z-index:10;" onclick="closeHelp()">✕</button>
             <h2>🎮 游戏玩法</h2>
-            
-            <div class="help-section">
-                <h3>🎯 目标</h3>
-                <p>控制下落的七种方块，填满整行即可消除并获取分数。</p>
-            </div>
-            
-            <div class="help-section">
-                <h3>⌨️ 键盘操作</h3>
-                <ul>
-                    <li><kbd>←</kbd> <kbd>→</kbd> 左右移动</li>
-                    <li><kbd>↑</kbd> 旋转方块 90°</li>
-                    <li><kbd>↓</kbd> 加速下落</li>
-                    <li><kbd>Space</kbd> 直接落底</li>
-                    <li><kbd>P</kbd> 暂停/继续</li>
-                </ul>
-            </div>
-            
-            <div class="help-section">
-                <h3>📱 触屏操作</h3>
-                <ul>
-                    <li>虚拟键盘按钮控制</li>
-                    <li>画布上滑 = 旋转</li>
-                    <li>画布下滑 = 落底</li>
-                    <li>画布左右滑 = 移动</li>
-                    <li><b>长按 ↓ 键</b> = 持续加速下落</li>
-                </ul>
-            </div>
-            
-            <div class="help-section">
-                <h3>💡 计分规则</h3>
-                <ul>
-                    <li>消除 1 行：100 分</li>
-                    <li>消除 2 行：300 分</li>
-                    <li>消除 3 行：500 分</li>
-                    <li>消除 4 行：800 分</li>
-                </ul>
-            </div>
-
+            <div class="help-section"><h3>🎯 目标</h3><p>控制下落的七种方块，填满整行即可消除并获取分数。</p></div>
+            <div class="help-section"><h3>⌨️ 键盘操作</h3><ul><li><kbd>←</kbd> <kbd>→</kbd> 移动</li><li><kbd>↑</kbd> 旋转</li><li><kbd>↓</kbd> 加速下落</li><li><kbd>Space</kbd> 落底</li><li><kbd>P</kbd> 暂停</li></ul></div>
+            <div class="help-section"><h3>📱 触屏操作</h3><ul><li>虚拟键盘控制</li><li>长按 ↓ 持续加速</li></ul></div>
+            <div class="help-section"><h3>💡 计分</h3><ul><li>1行=100分</li><li>2行=300分</li><li>3行=500分</li><li>4行=800分</li></ul></div>
             <hr class="help-divider">
-            <div style="color:#555; font-size:11px; text-align:center; margin-top:4px;">
-                在浏览器中打开获得完整体验 🚀
-            </div>
+            <div style="color:#555;font-size:11px;text-align:center;">在浏览器中打开获得完整体验 🚀</div>
         </div>
     </div>
 
-    <!-- ===== 作弊菜单 ===== -->
-    <div id="cheatOverlay">
-        <div class="cheat-box">
-            <h2>⚙ 作弊菜单</h2>
-            <label>无尽模式
-                <input type="checkbox" id="endlessMode">
-            </label>
-            <label>增加分数
-                <input type="number" id="addScore" value="100" min="1">
-                <button class="cheat-btn" onclick="addCustomScore()">+ 增加分数</button>
-            </label>
-            <label>自定义脚本
-                <textarea id="customScript" placeholder="// 写JS代码&#10;score += 1000; updateScore();"></textarea>
-                <button class="cheat-btn" onclick="runCustomScript()">⚡ 执行</button>
-            </label>
-            <button class="cheat-btn danger" onclick="closeCheat()">✖ 关闭</button>
+    <!-- ===== 作弊菜单（圆形展开） ===== -->
+    <div class="overlay" id="cheatMenuOverlay">
+        <div class="modal-box cheat-box">
+            <h2>🔑 作弊菜单</h2>
+            <label>无尽模式 <input type="checkbox" id="endlessMode"></label>
+            <label>增加分数 <input type="number" id="addScore" value="100" min="1"></label>
+            <button class="cheat-btn" onclick="addCheatScore()">+ 增加分数（不计入最高分）</button>
+            <label>自定义脚本 <textarea id="customScript" placeholder="// 写JS代码&#10;score += 1000; updateScore();"></textarea></label>
+            <button class="cheat-btn" onclick="runCheatScript()">⚡ 执行脚本（不计入最高分）</button>
+            <button class="cheat-btn danger" onclick="closeCheatMenu()">✖ 关闭</button>
+            <div class="cheat-note">⚡ 作弊所得分数不会计入最高纪录</div>
         </div>
     </div>
-
 </div>
 
 <script>
 // ============================================================
-//  0. 微信检测 → 彩蛋
+// 微信检测
 // ============================================================
-function isWechat() {
-    return /MicroMessenger/i.test(navigator.userAgent);
+function isWechat(){return/MicroMessenger/i.test(navigator.userAgent);}
+if(isWechat()){setTimeout(()=>{document.getElementById('wechatEasterEgg').classList.add('active');},300);}
+function forceCloseEgg(){document.getElementById('wechatEasterEgg').classList.remove('active');}
+function copyAndOpenBrowser(){
+    const url=window.location.href;
+    if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{alert('✅ 链接已复制！请打开浏览器粘贴访问');}).catch(()=>{fallbackCopy(url);});}
+    else{fallbackCopy(url);}
 }
-
-if (isWechat()) {
-    // 延迟一点点显示，确保页面加载完成
-    setTimeout(() => {
-        document.getElementById('wechatEasterEgg').classList.add('active');
-    }, 300);
-}
-
-function forceCloseEgg() {
-    document.getElementById('wechatEasterEgg').classList.remove('active');
-}
-
-function copyAndOpenBrowser() {
-    const url = window.location.href;
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(() => {
-            alert('✅ 链接已复制！请打开浏览器粘贴访问\n\n提示：复制后去 Safari/Chrome 打开');
-        }).catch(() => {
-            // 降级方案
-            fallbackCopy(url);
-        });
-    } else {
-        fallbackCopy(url);
-    }
-}
-
-function fallbackCopy(text) {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-        document.execCommand('copy');
-        alert('✅ 链接已复制！请打开浏览器粘贴访问');
-    } catch(e) {
-        alert('请手动复制链接：\n' + text);
-    }
+function fallbackCopy(text){
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');alert('✅ 链接已复制！');}catch(e){alert('请手动复制：\n'+text);}
     document.body.removeChild(ta);
 }
 
 // ============================================================
-//  1. 设备检测 + 强制切换
+// 设备检测
 // ============================================================
-let forcedDevice = null;
-
-function detectUA() {
-    const ua = navigator.userAgent;
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-    const isTablet = /iPad|Android(?!.*Mobile)/i.test(ua) || (window.innerWidth >= 768 && window.innerWidth <= 1024);
-    return (isTablet || isMobile) ? 'mobile' : 'desktop';
+let forcedDevice=null;
+function detectUA(){
+    const ua=navigator.userAgent;
+    const isMobile=/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    const isTablet=/iPad|Android(?!.*Mobile)/i.test(ua)||(window.innerWidth>=768&&window.innerWidth<=1024);
+    return (isTablet||isMobile)?'mobile':'desktop';
 }
-
-function getCurrentDevice() {
-    if (forcedDevice) return forcedDevice;
-    const sel = document.getElementById('deviceSelect');
-    if (sel && sel.value !== 'auto') return sel.value;
+function getCurrentDevice(){
+    if(forcedDevice)return forcedDevice;
+    const sel=document.getElementById('deviceSelect');
+    if(sel&&sel.value!=='auto')return sel.value;
     return detectUA();
 }
-
-function updateDeviceUI() {
-    const device = getCurrentDevice();
-    const kb = document.getElementById('virtualKeyboard');
-    if (device === 'mobile') {
+function updateDeviceUI(){
+    const device=getCurrentDevice();
+    const kb=document.getElementById('virtualKeyboard');
+    const key=document.getElementById('cheatKey');
+    if(device==='mobile'){
         kb.classList.add('active');
-    } else {
+        key.classList.add('show');
+    }else{
         kb.classList.remove('active');
+        key.classList.remove('show');
     }
-    const sel = document.getElementById('deviceSelect');
-    if (sel) {
-        if (forcedDevice) sel.value = forcedDevice;
-        else sel.value = 'auto';
-    }
+    const sel=document.getElementById('deviceSelect');
+    if(sel){if(forcedDevice)sel.value=forcedDevice;else sel.value='auto';}
     setupTouchEvents();
 }
-
-document.getElementById('deviceSelect')?.addEventListener('change', function() {
-    if (this.value === 'auto') {
-        forcedDevice = null;
-    } else {
-        forcedDevice = this.value;
-    }
+document.getElementById('deviceSelect')?.addEventListener('change',function(){
+    if(this.value==='auto')forcedDevice=null;
+    else forcedDevice=this.value;
     updateDeviceUI();
 });
 
 // ============================================================
-//  2. 主界面 / 游戏切换
+// 界面控制
 // ============================================================
-function startGame() {
+let gameStarted=false;
+let cheatClickCount=0;
+let isCheating=false; // 标记是否作弊过，用于阻止高分
+
+function startGame(){
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('gameView').classList.add('active');
-    const speed = parseInt(document.getElementById('speedSlider').value) || 500;
-    fallSpeed = speed;
+    const speed=parseInt(document.getElementById('speedSlider').value)||500;
+    fallSpeed=speed;
+    gameStarted=true;
+    cheatClickCount=0;
+    isCheating=false;
+    updateCheatBadge();
     resetGame();
     updateDeviceUI();
 }
 
-function quitGame() {
-    if (fallInterval) {
-        clearInterval(fallInterval);
-        fallInterval = null;
-    }
-    cheatSequence = [];
+function quitGame(){
+    if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
+    isPaused=false;
+    gameOver=false;
+    gameStarted=false;
+    cheatClickCount=0;
+    isCheating=false;
+    updateCheatBadge();
+    document.getElementById('pauseOverlay').classList.remove('active');
+    document.getElementById('gameoverOverlay').classList.remove('active');
     document.getElementById('gameView').classList.remove('active');
     document.getElementById('mainMenu').classList.remove('hidden');
-    document.getElementById('pauseOverlay').classList.remove('active');
-    document.getElementById('gameoverOverlay').classList.remove('show');
-    document.getElementById('cheatOverlay').classList.remove('active');
+    document.getElementById('cheatMenuOverlay').classList.remove('active');
+    document.getElementById('cheatKey').classList.remove('show');
+}
+
+function openSettings(){
+    if(gameStarted && !gameOver){
+        if(!isPaused){
+            isPaused=true;
+            if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
+        }
+    }
+    document.getElementById('settingsOverlay').classList.add('active');
+}
+function closeSettings(){
+    document.getElementById('settingsOverlay').classList.remove('active');
+    if(gameStarted && !gameOver && isPaused){
+        isPaused=false;
+        if(!gameOver)startFallTimer();
+    }
+}
+function openHelp(){document.getElementById('helpOverlay').classList.add('active');}
+function closeHelp(){document.getElementById('helpOverlay').classList.remove('active');}
+function closePause(){document.getElementById('pauseOverlay').classList.remove('active');}
+
+// ============================================================
+// 作弊钥匙（点击方块5次触发）
+// ============================================================
+function updateCheatBadge(){
+    document.getElementById('cheatBadge').textContent = cheatClickCount + '/5';
+}
+
+function triggerCheatClick(){
+    if(gameOver || !gameStarted) return;
+    cheatClickCount++;
+    updateCheatBadge();
+    // 闪一下动画
+    const key=document.getElementById('cheatKey');
+    key.classList.remove('pulse');
+    void key.offsetWidth;
+    key.classList.add('pulse');
+    if(cheatClickCount>=5){
+        openCheatMenu();
+        cheatClickCount=0;
+        updateCheatBadge();
+    }
+}
+
+function openCheatMenu(){
+    document.getElementById('cheatMenuOverlay').classList.add('active');
+}
+
+function closeCheatMenu(){
+    document.getElementById('cheatMenuOverlay').classList.remove('active');
 }
 
 // ============================================================
-//  3. 暂停
+// 作弊功能（不计入最高分）
 // ============================================================
-let isPaused = false;
+function addCheatScore(){
+    if(gameOver || !gameStarted) return;
+    const add=parseInt(document.getElementById('addScore').value)||0;
+    score+=add;
+    isCheating=true;
+    updateScoreUI();
+    draw();
+}
 
-function togglePause() {
-    if (gameOver) return;
-    isPaused = !isPaused;
+function runCheatScript(){
+    if(gameOver || !gameStarted) return;
+    try{
+        eval(document.getElementById('customScript').value);
+        isCheating=true;
+        updateScoreUI();
+        draw();
+    }catch(e){alert('脚本错误: '+e.message);}
+}
+
+// 重写updateScore，检查是否作弊
+function updateScoreUI(){
+    scoreDisplay.textContent=score;
+    // 作弊分数不更新最高分
+    if(!isCheating && score>highScore){
+        highScore=score;
+        localStorage.setItem(HIGH_SCORE_KEY, highScore.toString());
+        highScoreDisplay.textContent=highScore;
+    }
+}
+
+// ============================================================
+// Game Over
+// ============================================================
+function showGameOver(){
+    document.getElementById('finalScoreDisplay').textContent=score;
+    document.getElementById('gameoverOverlay').classList.add('active');
+}
+
+function restartAfterDeath(){
+    document.getElementById('gameoverOverlay').classList.remove('active');
+    isCheating=false;
+    cheatClickCount=0;
+    updateCheatBadge();
+    resetGame();
+}
+
+function backToMenuAfterDeath(){
+    document.getElementById('gameoverOverlay').classList.remove('active');
+    quitGame();
+}
+
+// ============================================================
+// 暂停
+// ============================================================
+let isPaused=false;
+function togglePause(){
+    if(gameOver)return;
+    isPaused=!isPaused;
     document.getElementById('pauseOverlay').classList.toggle('active');
-    if (isPaused) {
-        if (fallInterval) {
-            clearInterval(fallInterval);
-            fallInterval = null;
-        }
-    } else {
+    if(isPaused){
+        if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
+    }else{
         startFallTimer();
     }
 }
-
-function resumeGame() {
-    isPaused = false;
+function resumeGame(){
+    isPaused=false;
     document.getElementById('pauseOverlay').classList.remove('active');
-    if (!gameOver) startFallTimer();
+    if(!gameOver)startFallTimer();
 }
 
-function openHelpFromPause() {
-    document.getElementById('pauseOverlay').classList.remove('active');
-    document.getElementById('helpOverlay').classList.add('active');
-}
-
-function openHelpFromMenu() {
-    document.getElementById('helpOverlay').classList.add('active');
-}
-
-function closeHelp() {
-    document.getElementById('helpOverlay').classList.remove('active');
-}
-
-function openSettingsFromPause() {
-    document.getElementById('pauseOverlay').classList.remove('active');
-    document.getElementById('settingsOverlay').classList.add('active');
-}
-
-function openSettingsFromMenu() {
-    document.getElementById('settingsOverlay').classList.add('active');
-}
-
-function closeSettings() {
-    document.getElementById('settingsOverlay').classList.remove('active');
-}
-
-document.getElementById('speedSlider')?.addEventListener('input', function() {
-    document.getElementById('speedValue').textContent = this.value + 'ms';
-    if (document.getElementById('gameView').classList.contains('active')) {
-        fallSpeed = parseInt(this.value);
-        if (!isPaused && !gameOver) {
-            startFallTimer();
-        }
+// ============================================================
+// 速度
+// ============================================================
+document.getElementById('speedSlider')?.addEventListener('input',function(){
+    document.getElementById('speedValue').textContent=this.value+'ms';
+    if(gameStarted && !gameOver && !isPaused){
+        fallSpeed=parseInt(this.value);
+        startFallTimer();
     }
 });
 
 // ============================================================
-//  4. 游戏核心
+// 游戏核心
 // ============================================================
-const COLS = 10, ROWS = 20, BLOCK_SIZE = 30, EMPTY = 0;
-const HIGH_SCORE_KEY = 'tetris_high_score';
-
-const SHAPES = [
-    { matrix: [[1,1,1,1]], color: '#00f0f0' },
-    { matrix: [[1,1],[1,1]], color: '#f0f000' },
-    { matrix: [[0,1,0],[1,1,1]], color: '#a000f0' },
-    { matrix: [[0,1,1],[1,1,0]], color: '#00f000' },
-    { matrix: [[1,1,0],[0,1,1]], color: '#f00000' },
-    { matrix: [[1,0,0],[1,1,1]], color: '#f0a000' },
-    { matrix: [[0,0,1],[1,1,1]], color: '#0000f0' }
+const COLS=10,ROWS=20,BLOCK_SIZE=30,EMPTY=0;
+const HIGH_SCORE_KEY='tetris_high_score';
+const SHAPES=[
+    {matrix:[[1,1,1,1]],color:'#00f0f0'},
+    {matrix:[[1,1],[1,1]],color:'#f0f000'},
+    {matrix:[[0,1,0],[1,1,1]],color:'#a000f0'},
+    {matrix:[[0,1,1],[1,1,0]],color:'#00f000'},
+    {matrix:[[1,1,0],[0,1,1]],color:'#f00000'},
+    {matrix:[[1,0,0],[1,1,1]],color:'#f0a000'},
+    {matrix:[[0,0,1],[1,1,1]],color:'#0000f0'}
 ];
+let board=[],currentPiece=null,nextPiece=null;
+let score=0,highScore=parseInt(localStorage.getItem(HIGH_SCORE_KEY))||0;
+let gameOver=false,fallInterval=null,fallSpeed=500;
+let endlessMode=false;
+const canvas=document.getElementById('gameCanvas');
+const ctx=canvas.getContext('2d');
+const nextCanvas=document.getElementById('nextCanvas');
+const nextCtx=nextCanvas.getContext('2d');
+const scoreDisplay=document.getElementById('scoreDisplay');
+const highScoreDisplay=document.getElementById('highScoreDisplay');
+highScoreDisplay.textContent=highScore;
 
-let board = [], currentPiece = null, nextPiece = null;
-let score = 0, highScore = parseInt(localStorage.getItem(HIGH_SCORE_KEY)) || 0;
-let gameOver = false, fallInterval = null, fallSpeed = 500;
-let endlessMode = false, menuUsed = false;
-
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const nextCanvas = document.getElementById('nextCanvas');
-const nextCtx = nextCanvas.getContext('2d');
-const scoreDisplay = document.getElementById('scoreDisplay');
-const highScoreDisplay = document.getElementById('highScoreDisplay');
-highScoreDisplay.textContent = highScore;
-
-function initBoard() {
-    board = [];
-    for (let r = 0; r < ROWS; r++) board.push(new Array(COLS).fill(EMPTY));
-}
-
-function randomPiece() {
-    const idx = Math.floor(Math.random() * SHAPES.length);
-    const shape = SHAPES[idx];
-    return {
-        matrix: shape.matrix.map(row => [...row]),
-        color: shape.color,
-        x: Math.floor((COLS - shape.matrix[0].length) / 2),
-        y: 0
-    };
-}
-
-function spawnPiece() {
-    if (!nextPiece) nextPiece = randomPiece();
-    currentPiece = {
-        matrix: nextPiece.matrix.map(row => [...row]),
-        color: nextPiece.color,
-        x: Math.floor((COLS - nextPiece.matrix[0].length) / 2),
-        y: 0
-    };
-    nextPiece = randomPiece();
-    
-    if (collision(currentPiece.matrix, currentPiece.x, currentPiece.y)) {
-        if (endlessMode) {
-            let hasFullRow = false;
-            for (let r = 0; r < ROWS; r++) {
-                let full = true;
-                for (let c = 0; c < COLS; c++) {
-                    if (board[r][c] === EMPTY) { full = false; break; }
-                }
-                if (full) { hasFullRow = true; break; }
-            }
-            if (!hasFullRow) {
-                initBoard();
-                gameOver = false;
-                spawnPiece();
-                draw();
-                startFallTimer();
-                return;
-            }
+function initBoard(){board=[];for(let r=0;r<ROWS;r++)board.push(new Array(COLS).fill(EMPTY));}
+function randomPiece(){const idx=Math.floor(Math.random()*SHAPES.length);const shape=SHAPES[idx];return{matrix:shape.matrix.map(r=>[...r]),color:shape.color,x:Math.floor((COLS-shape.matrix[0].length)/2),y:0};}
+function spawnPiece(){
+    if(!nextPiece)nextPiece=randomPiece();
+    currentPiece={matrix:nextPiece.matrix.map(r=>[...r]),color:nextPiece.color,x:Math.floor((COLS-nextPiece.matrix[0].length)/2),y:0};
+    nextPiece=randomPiece();
+    if(collision(currentPiece.matrix,currentPiece.x,currentPiece.y)){
+        if(endlessMode){
+            let hasFullRow=false;
+            for(let r=0;r<ROWS;r++){let full=true;for(let c=0;c<COLS;c++){if(board[r][c]===EMPTY){full=false;break;}}if(full){hasFullRow=true;break;}}
+            if(!hasFullRow){initBoard();gameOver=false;spawnPiece();draw();startFallTimer();return;}
         }
-        gameOver = true;
-        if (fallInterval) { clearInterval(fallInterval); fallInterval = null; }
-        updateHighScore();
+        gameOver=true;
+        if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
+        updateScoreUI();
         draw();
-        document.getElementById('gameoverOverlay').classList.add('show');
+        showGameOver();
     }
 }
-
-function collision(matrix, offsetX, offsetY) {
-    for (let r = 0; r < matrix.length; r++) {
-        for (let c = 0; c < matrix[0].length; c++) {
-            if (matrix[r][c] !== 0) {
-                const bx = offsetX + c, by = offsetY + r;
-                if (bx < 0 || bx >= COLS || by >= ROWS || by < 0) return true;
-                if (by >= 0 && board[by][bx] !== EMPTY) return true;
-            }
-        }
-    }
+function collision(matrix,ox,oy){
+    for(let r=0;r<matrix.length;r++)for(let c=0;c<matrix[0].length;c++)if(matrix[r][c]!==0){const bx=ox+c,by=oy+r;if(bx<0||bx>=COLS||by>=ROWS||by<0)return true;if(by>=0&&board[by][bx]!==EMPTY)return true;}
     return false;
 }
-
-function mergePiece() {
-    for (let r = 0; r < currentPiece.matrix.length; r++) {
-        for (let c = 0; c < currentPiece.matrix[0].length; c++) {
-            if (currentPiece.matrix[r][c] !== 0) {
-                const by = currentPiece.y + r, bx = currentPiece.x + c;
-                if (by >= 0 && by < ROWS && bx >= 0 && bx < COLS) {
-                    board[by][bx] = currentPiece.color;
-                }
-            }
-        }
-    }
+function mergePiece(){
+    for(let r=0;r<currentPiece.matrix.length;r++)for(let c=0;c<currentPiece.matrix[0].length;c++)if(currentPiece.matrix[r][c]!==0){const by=currentPiece.y+r,bx=currentPiece.x+c;if(by>=0&&by<ROWS&&bx>=0&&bx<COLS)board[by][bx]=currentPiece.color;}
 }
-
-function clearRows() {
-    let cleared = 0;
-    for (let r = ROWS - 1; r >= 0; ) {
-        let full = true;
-        for (let c = 0; c < COLS; c++) {
-            if (board[r][c] === EMPTY) { full = false; break; }
-        }
-        if (full) {
-            board.splice(r, 1);
-            board.unshift(new Array(COLS).fill(EMPTY));
-            cleared++;
-        } else { r--; }
-    }
-    if (cleared > 0) {
-        const points = [0, 100, 300, 500, 800];
-        score += points[cleared] || 800;
-        updateScore();
-    }
+function clearRows(){
+    let cleared=0;
+    for(let r=ROWS-1;r>=0;){let full=true;for(let c=0;c<COLS;c++){if(board[r][c]===EMPTY){full=false;break;}}if(full){board.splice(r,1);board.unshift(new Array(COLS).fill(EMPTY));cleared++;}else r--;}
+    if(cleared>0){const pts=[0,100,300,500,800];score+=pts[cleared]||800;updateScoreUI();}
 }
-
-function movePiece(dx, dy) {
-    if (!currentPiece || gameOver || isPaused) return false;
-    if (!collision(currentPiece.matrix, currentPiece.x + dx, currentPiece.y + dy)) {
-        currentPiece.x += dx;
-        currentPiece.y += dy;
-        draw();
-        return true;
+function movePiece(dx,dy){
+    if(!currentPiece||gameOver||isPaused)return false;
+    if(!collision(currentPiece.matrix,currentPiece.x+dx,currentPiece.y+dy)){
+        currentPiece.x+=dx;currentPiece.y+=dy;draw();return true;
     }
-    if (dy === 1) lockPiece();
+    if(dy===1)lockPiece();
     return false;
 }
-
-function rotatePiece() {
-    if (!currentPiece || gameOver || isPaused) return;
-    const matrix = currentPiece.matrix;
-    const rotated = matrix[0].map((_, idx) => matrix.map(row => row[idx]).reverse());
-    if (!collision(rotated, currentPiece.x, currentPiece.y)) {
-        currentPiece.matrix = rotated;
-        draw();
-    }
+function rotatePiece(){
+    if(!currentPiece||gameOver||isPaused)return;
+    const matrix=currentPiece.matrix;
+    const rotated=matrix[0].map((_,idx)=>matrix.map(row=>row[idx]).reverse());
+    if(!collision(rotated,currentPiece.x,currentPiece.y)){currentPiece.matrix=rotated;draw();}
 }
-
-function hardDrop() {
-    if (!currentPiece || gameOver || isPaused) return;
-    while (!collision(currentPiece.matrix, currentPiece.x, currentPiece.y + 1)) {
-        currentPiece.y++;
-    }
+function hardDrop(){
+    if(!currentPiece||gameOver||isPaused)return;
+    while(!collision(currentPiece.matrix,currentPiece.x,currentPiece.y+1))currentPiece.y++;
     lockPiece();
 }
-
-function lockPiece() {
-    mergePiece();
-    clearRows();
-    spawnPiece();
-    draw();
-    if (gameOver) {
-        if (fallInterval) { clearInterval(fallInterval); fallInterval = null; }
-        updateHighScore();
-        draw();
-        document.getElementById('gameoverOverlay').classList.add('show');
+function lockPiece(){mergePiece();clearRows();spawnPiece();draw();if(gameOver){if(fallInterval){clearInterval(fallInterval);fallInterval=null;}updateScoreUI();draw();showGameOver();}}
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='#1a1a3e';ctx.lineWidth=0.5;
+    for(let r=0;r<=ROWS;r++){ctx.beginPath();ctx.moveTo(0,r*BLOCK_SIZE);ctx.lineTo(canvas.width,r*BLOCK_SIZE);ctx.stroke();}
+    for(let c=0;c<=COLS;c++){ctx.beginPath();ctx.moveTo(c*BLOCK_SIZE,0);ctx.lineTo(c*BLOCK_SIZE,canvas.height);ctx.stroke();}
+    for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(board[r][c]!==EMPTY){ctx.fillStyle=board[r][c];ctx.shadowBlur=10;ctx.shadowColor=board[r][c];ctx.fillRect(c*BLOCK_SIZE,r*BLOCK_SIZE,BLOCK_SIZE-1,BLOCK_SIZE-1);ctx.shadowBlur=0;}
+    if(currentPiece&&!gameOver)for(let r=0;r<currentPiece.matrix.length;r++)for(let c=0;c<currentPiece.matrix[0].length;c++)if(currentPiece.matrix[r][c]!==0){const x=(currentPiece.x+c)*BLOCK_SIZE,y=(currentPiece.y+r)*BLOCK_SIZE;ctx.fillStyle=currentPiece.color;ctx.shadowBlur=15;ctx.shadowColor=currentPiece.color;ctx.fillRect(x,y,BLOCK_SIZE-1,BLOCK_SIZE-1);ctx.shadowBlur=0;}
+    nextCtx.clearRect(0,0,nextCanvas.width,nextCanvas.height);
+    if(nextPiece){const bs=25,m=nextPiece.matrix,cols=m[0].length,rows=m.length,ox=(nextCanvas.width-cols*bs)/2,oy=(nextCanvas.height-rows*bs)/2;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)if(m[r][c]!==0){nextCtx.fillStyle=nextPiece.color;nextCtx.shadowBlur=10;nextCtx.shadowColor=nextPiece.color;nextCtx.fillRect(ox+c*bs,oy+r*bs,bs-1,bs-1);nextCtx.shadowBlur=0;}}
+}
+function startFallTimer(){
+    if(fallInterval)clearInterval(fallInterval);
+    if(!gameOver&&!isPaused){
+        fallInterval=setInterval(()=>{
+            if(!gameOver&&!isPaused&&currentPiece)movePiece(0,1);
+        },fallSpeed);
     }
 }
-
-function updateHighScore() {
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem(HIGH_SCORE_KEY, highScore.toString());
-        highScoreDisplay.textContent = highScore;
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = '#1a1a3e';
-    ctx.lineWidth = 0.5;
-    for (let r = 0; r <= ROWS; r++) {
-        ctx.beginPath();
-        ctx.moveTo(0, r * BLOCK_SIZE);
-        ctx.lineTo(canvas.width, r * BLOCK_SIZE);
-        ctx.stroke();
-    }
-    for (let c = 0; c <= COLS; c++) {
-        ctx.beginPath();
-        ctx.moveTo(c * BLOCK_SIZE, 0);
-        ctx.lineTo(c * BLOCK_SIZE, canvas.height);
-        ctx.stroke();
-    }
-    for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-            if (board[r][c] !== EMPTY) {
-                ctx.fillStyle = board[r][c];
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = board[r][c];
-                ctx.fillRect(c * BLOCK_SIZE, r * BLOCK_SIZE, BLOCK_SIZE-1, BLOCK_SIZE-1);
-                ctx.shadowBlur = 0;
-            }
-        }
-    }
-    if (currentPiece && !gameOver) {
-        for (let r = 0; r < currentPiece.matrix.length; r++) {
-            for (let c = 0; c < currentPiece.matrix[0].length; c++) {
-                if (currentPiece.matrix[r][c] !== 0) {
-                    const x = (currentPiece.x + c) * BLOCK_SIZE;
-                    const y = (currentPiece.y + r) * BLOCK_SIZE;
-                    ctx.fillStyle = currentPiece.color;
-                    ctx.shadowBlur = 15;
-                    ctx.shadowColor = currentPiece.color;
-                    ctx.fillRect(x, y, BLOCK_SIZE-1, BLOCK_SIZE-1);
-                    ctx.shadowBlur = 0;
-                }
-            }
-        }
-    }
-    nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
-    if (nextPiece) {
-        const bs = 25, m = nextPiece.matrix, cols = m[0].length, rows = m.length;
-        const ox = (nextCanvas.width - cols * bs) / 2, oy = (nextCanvas.height - rows * bs) / 2;
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                if (m[r][c] !== 0) {
-                    nextCtx.fillStyle = nextPiece.color;
-                    nextCtx.shadowBlur = 10;
-                    nextCtx.shadowColor = nextPiece.color;
-                    nextCtx.fillRect(ox + c * bs, oy + r * bs, bs-1, bs-1);
-                    nextCtx.shadowBlur = 0;
-                }
-            }
-        }
-    }
-}
-
-function updateScore() {
-    scoreDisplay.textContent = score;
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem(HIGH_SCORE_KEY, highScore.toString());
-        highScoreDisplay.textContent = highScore;
-    }
-}
-
-function startFallTimer() {
-    if (fallInterval) clearInterval(fallInterval);
-    if (!gameOver && !isPaused) {
-        fallInterval = setInterval(() => {
-            if (!gameOver && !isPaused && currentPiece) movePiece(0, 1);
-        }, fallSpeed);
-    }
-}
-
-function resetGame() {
-    if (fallInterval) { clearInterval(fallInterval); fallInterval = null; }
-    initBoard();
-    score = 0;
-    gameOver = false;
-    isPaused = false;
-    endlessMode = false;
-    menuUsed = false;
-    cheatSequence = [];
-    document.getElementById('endlessMode').checked = false;
-    document.getElementById('gameoverOverlay').classList.remove('show');
+function resetGame(){
+    if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
+    initBoard();score=0;gameOver=false;isPaused=false;endlessMode=false;
+    isCheating=false;cheatClickCount=0;updateCheatBadge();
+    document.getElementById('endlessMode').checked=false;
+    document.getElementById('gameoverOverlay').classList.remove('active');
     document.getElementById('pauseOverlay').classList.remove('active');
-    document.getElementById('cheatOverlay').classList.remove('active');
-    updateScore();
-    nextPiece = randomPiece();
-    spawnPiece();
-    draw();
-    startFallTimer();
-    closeCheat();
+    document.getElementById('cheatMenuOverlay').classList.remove('active');
+    updateScoreUI();nextPiece=randomPiece();spawnPiece();draw();startFallTimer();
 }
+document.getElementById('endlessMode').addEventListener('change',function(e){endlessMode=e.target.checked;});
 
 // ============================================================
-//  5. 作弊 (手机: 上上下下左左右右 + 旋转×3)
+// 键盘
 // ============================================================
-let cheatSequence = [];
-const CHEAT_CODE = ['up','up','down','down','left','right','left','right','rotate','rotate','rotate'];
-
-function checkCheatSequence(action) {
-    if (gameOver || menuUsed) return;
-    cheatSequence.push(action);
-    if (cheatSequence.length > CHEAT_CODE.length) {
-        cheatSequence.shift();
-    }
-    let match = true;
-    for (let i = 0; i < cheatSequence.length; i++) {
-        if (cheatSequence[i] !== CHEAT_CODE[i]) {
-            match = false;
-            break;
-        }
-    }
-    if (match && cheatSequence.length === CHEAT_CODE.length) {
-        openCheat();
-        cheatSequence = [];
-        menuUsed = true;
-    }
-}
-
-// ============================================================
-//  6. 作弊菜单
-// ============================================================
-function openCheat() {
-    document.getElementById('cheatOverlay').classList.add('active');
-}
-
-function closeCheat() {
-    document.getElementById('cheatOverlay').classList.remove('active');
-}
-
-function addCustomScore() {
-    if (gameOver) return;
-    const add = parseInt(document.getElementById('addScore').value) || 0;
-    score += add;
-    updateScore();
-    draw();
-}
-
-function runCustomScript() {
-    if (gameOver) return;
-    try {
-        eval(document.getElementById('customScript').value);
-    } catch(e) { alert('脚本错误: ' + e.message); }
-}
-
-document.getElementById('endlessMode').addEventListener('change', function(e) {
-    endlessMode = e.target.checked;
-});
-
-// ============================================================
-//  7. 键盘控制
-// ============================================================
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        if (document.getElementById('cheatOverlay').classList.contains('active')) closeCheat();
-        else if (document.getElementById('helpOverlay').classList.contains('active')) closeHelp();
-        else if (document.getElementById('settingsOverlay').classList.contains('active')) closeSettings();
-        else if (document.getElementById('pauseOverlay').classList.contains('active')) resumeGame();
+document.addEventListener('keydown',(e)=>{
+    if(e.key==='Escape'){
+        if(document.getElementById('cheatMenuOverlay').classList.contains('active'))closeCheatMenu();
+        else if(document.getElementById('helpOverlay').classList.contains('active'))closeHelp();
+        else if(document.getElementById('settingsOverlay').classList.contains('active'))closeSettings();
+        else if(document.getElementById('pauseOverlay').classList.contains('active'))resumeGame();
         return;
     }
-    if (gameOver || !document.getElementById('gameView').classList.contains('active')) {
-        if (e.key === 'Enter' || e.key === ' ') { resetGame(); e.preventDefault(); }
+    if(gameOver||!document.getElementById('gameView').classList.contains('active')){
+        if(e.key==='Enter'||e.key===' '){resetGame();e.preventDefault();}
         return;
     }
     // 桌面端C键作弊
-    if ((e.key === 'c' || e.key === 'C') && getCurrentDevice() === 'desktop') {
-        if (!document.getElementById('cheatOverlay').classList.contains('active')) {
-            openCheat();
-        }
+    if((e.key==='c'||e.key==='C')&&getCurrentDevice()==='desktop'){
+        if(!document.getElementById('cheatMenuOverlay').classList.contains('active'))openCheatMenu();
         return;
     }
-    switch(e.key) {
-        case 'ArrowLeft': movePiece(-1, 0); e.preventDefault(); break;
-        case 'ArrowRight': movePiece(1, 0); e.preventDefault(); break;
-        case 'ArrowDown': movePiece(0, 1); e.preventDefault(); break;
-        case 'ArrowUp': rotatePiece(); e.preventDefault(); break;
-        case ' ': hardDrop(); e.preventDefault(); break;
-        case 'p': case 'P': togglePause(); e.preventDefault(); break;
+    switch(e.key){
+        case 'ArrowLeft':movePiece(-1,0);e.preventDefault();break;
+        case 'ArrowRight':movePiece(1,0);e.preventDefault();break;
+        case 'ArrowDown':movePiece(0,1);e.preventDefault();break;
+        case 'ArrowUp':rotatePiece();e.preventDefault();break;
+        case ' ':hardDrop();e.preventDefault();break;
+        case 'p':case 'P':togglePause();e.preventDefault();break;
     }
 });
 
 // ============================================================
-//  8. 触屏 + 虚拟键盘
+// 触控 + 点击方块触发作弊
 // ============================================================
-let touchStartX = 0, touchStartY = 0, touchMoved = false;
-
-function setupTouchEvents() {
-    canvas.removeEventListener('touchstart', handleTouchStart);
-    canvas.removeEventListener('touchmove', handleTouchMove);
-    canvas.removeEventListener('touchend', handleTouchEnd);
-    if (getCurrentDevice() === 'mobile') {
-        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-        canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+let touchStartX=0,touchStartY=0,touchMoved=false;
+function setupTouchEvents(){
+    canvas.removeEventListener('touchstart',handleTouchStart);
+    canvas.removeEventListener('touchmove',handleTouchMove);
+    canvas.removeEventListener('touchend',handleTouchEnd);
+    if(getCurrentDevice()==='mobile'){
+        canvas.addEventListener('touchstart',handleTouchStart,{passive:false});
+        canvas.addEventListener('touchmove',handleTouchMove,{passive:false});
+        canvas.addEventListener('touchend',handleTouchEnd,{passive:false});
     }
 }
-
-function handleTouchStart(e) {
+function handleTouchStart(e){
     e.preventDefault();
-    if (gameOver || isPaused) return;
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    touchStartX = touch.clientX - rect.left;
-    touchStartY = touch.clientY - rect.top;
-    touchMoved = false;
+    if(gameOver||isPaused)return;
+    const touch=e.touches[0];
+    const rect=canvas.getBoundingClientRect();
+    touchStartX=touch.clientX-rect.left;
+    touchStartY=touch.clientY-rect.top;
+    touchMoved=false;
 }
-
-function handleTouchMove(e) {
+function handleTouchMove(e){
     e.preventDefault();
-    if (!touchStartX || !touchStartY || gameOver || isPaused) return;
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    const dx = x - touchStartX, dy = y - touchStartY;
-    if (Math.abs(dx) > 15 || Math.abs(dy) > 15) {
-        touchMoved = true;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            const dir = dx > 0 ? 'right' : 'left';
-            movePiece(dx > 0 ? 1 : -1, 0);
-            checkCheatSequence(dir);
-        } else {
-            if (dy > 25) {
-                hardDrop();
-                checkCheatSequence('down');
-            } else if (dy < -25) {
-                rotatePiece();
-                checkCheatSequence('rotate');
-            }
-        }
-        touchStartX = x;
-        touchStartY = y;
+    if(!touchStartX||!touchStartY||gameOver||isPaused)return;
+    const touch=e.touches[0];
+    const rect=canvas.getBoundingClientRect();
+    const x=touch.clientX-rect.left;
+    const y=touch.clientY-rect.top;
+    const dx=x-touchStartX,dy=y-touchStartY;
+    if(Math.abs(dx)>15||Math.abs(dy)>15){
+        touchMoved=true;
+        if(Math.abs(dx)>Math.abs(dy)){movePiece(dx>0?1:-1,0);}
+        else{if(dy>25){hardDrop();}else if(dy<-25){rotatePiece();}}
+        touchStartX=x;touchStartY=y;
     }
 }
-
-function handleTouchEnd(e) {
+function handleTouchEnd(e){
     e.preventDefault();
-    if (!touchMoved && touchStartX && touchStartY && !gameOver && !isPaused) {
+    // 如果没有滑动，视为点击 → 触发作弊计数
+    if(!touchMoved&&touchStartX&&touchStartY&&!gameOver&&!isPaused){
         rotatePiece();
-        checkCheatSequence('rotate');
+        // 点击方块触发作弊计数（手机端）
+        triggerCheatClick();
     }
-    touchStartX = 0;
-    touchStartY = 0;
+    touchStartX=0;touchStartY=0;
 }
 
-let holdInterval = null;
-
-document.querySelectorAll('.vk-btn').forEach(btn => {
-    btn.addEventListener('touchstart', (e) => {
+// ============================================================
+// 虚拟键盘
+// ============================================================
+let holdInterval=null;
+document.querySelectorAll('.vk-btn').forEach(btn=>{
+    const action=btn.dataset.action;
+    const startFn=(e)=>{
         e.preventDefault();
-        if (gameOver || isPaused) return;
-        const action = btn.dataset.action;
-        checkCheatSequence(action);
-        
-        if (action === 'left') movePiece(-1, 0);
-        else if (action === 'right') movePiece(1, 0);
-        else if (action === 'down') {
-            movePiece(0, 1);
+        if(gameOver||isPaused)return;
+        if(action==='left')movePiece(-1,0);
+        else if(action==='right')movePiece(1,0);
+        else if(action==='down'){
+            movePiece(0,1);
             btn.classList.add('holding');
-            if (holdInterval) clearInterval(holdInterval);
-            holdInterval = setInterval(() => {
-                if (!gameOver && !isPaused && currentPiece) {
-                    movePiece(0, 1);
-                } else {
-                    clearInterval(holdInterval);
-                    holdInterval = null;
-                }
-            }, 80);
+            if(holdInterval)clearInterval(holdInterval);
+            holdInterval=setInterval(()=>{
+                if(!gameOver&&!isPaused&&currentPiece)movePiece(0,1);
+                else{clearInterval(holdInterval);holdInterval=null;}
+            },80);
         }
-        else if (action === 'up') movePiece(0, -1);
-        else if (action === 'rotate') rotatePiece();
-        else if (action === 'drop') hardDrop();
-    }, { passive: false });
-    
-    btn.addEventListener('touchend', (e) => {
+        else if(action==='up')movePiece(0,-1);
+        else if(action==='rotate')rotatePiece();
+        else if(action==='drop')hardDrop();
+    };
+    const endFn=(e)=>{
         e.preventDefault();
-        const action = btn.dataset.action;
-        if (action === 'down') {
+        if(action==='down'){
             btn.classList.remove('holding');
-            if (holdInterval) {
-                clearInterval(holdInterval);
-                holdInterval = null;
-            }
+            if(holdInterval){clearInterval(holdInterval);holdInterval=null;}
         }
-    }, { passive: false });
-    
-    btn.addEventListener('touchcancel', (e) => {
-        const action = btn.dataset.action;
-        if (action === 'down') {
-            btn.classList.remove('holding');
-            if (holdInterval) {
-                clearInterval(holdInterval);
-                holdInterval = null;
-            }
-        }
-    });
-    
-    btn.addEventListener('mousedown', (e) => {
-        if (gameOver || isPaused) return;
-        const action = btn.dataset.action;
-        if (action === 'left') movePiece(-1, 0);
-        else if (action === 'right') movePiece(1, 0);
-        else if (action === 'down') {
-            movePiece(0, 1);
-            btn.classList.add('holding');
-            if (holdInterval) clearInterval(holdInterval);
-            holdInterval = setInterval(() => {
-                if (!gameOver && !isPaused && currentPiece) movePiece(0, 1);
-                else { clearInterval(holdInterval); holdInterval = null; }
-            }, 80);
-        }
-        else if (action === 'up') movePiece(0, -1);
-        else if (action === 'rotate') rotatePiece();
-        else if (action === 'drop') hardDrop();
-    });
-    btn.addEventListener('mouseup', (e) => {
-        const action = btn.dataset.action;
-        if (action === 'down') {
-            btn.classList.remove('holding');
-            if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
-        }
-    });
-    btn.addEventListener('mouseleave', (e) => {
-        const action = btn.dataset.action;
-        if (action === 'down') {
-            btn.classList.remove('holding');
-            if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
-        }
-    });
+    };
+    btn.addEventListener('touchstart',startFn,{passive:false});
+    btn.addEventListener('touchend',endFn,{passive:false});
+    btn.addEventListener('touchcancel',endFn,{passive:false});
+    btn.addEventListener('mousedown',startFn);
+    btn.addEventListener('mouseup',endFn);
+    btn.addEventListener('mouseleave',endFn);
 });
 
 // ============================================================
-//  9. 启动
+// 启动
 // ============================================================
 updateDeviceUI();
 setupTouchEvents();
 document.getElementById('mainMenu').classList.remove('hidden');
 document.getElementById('gameView').classList.remove('active');
 
-document.addEventListener('keydown', (e) => {
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
-        e.preventDefault();
-    }
-}, { passive: false });
+document.addEventListener('keydown',(e)=>{
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();
+},{passive:false});
 
-document.getElementById('helpOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeHelp();
+document.querySelectorAll('.overlay').forEach(el=>{
+    el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active');});
 });
-document.getElementById('settingsOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeSettings();
+
+// 点击画布触发作弊计数（PC端鼠标点击）
+canvas.addEventListener('click', function(e){
+    if(getCurrentDevice()==='desktop' && !gameOver && gameStarted){
+        triggerCheatClick();
+    }
 });
 </script>
 </body>
