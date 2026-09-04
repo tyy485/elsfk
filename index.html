@@ -8,8 +8,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
     width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100%;
     background: #0a0a1a;
     display: flex;
     justify-content: center;
@@ -21,8 +20,7 @@ html, body {
     touch-action: none;
     overflow: hidden;
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
 }
 #app {
     width: 100%;
@@ -31,45 +29,41 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    height: 100vh;
-    height: 100dvh;
+    gap: 6px;
+    height: 100%;
     justify-content: center;
 }
 * { -webkit-tap-highlight-color: transparent; }
 
-/* ===== 主界面 ===== */
+/* 主菜单 */
 #mainMenu {
     width: 100%;
     max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
-    padding: 20px 16px;
+    gap: 12px;
+    padding: 20px;
 }
 #mainMenu.hidden { display: none; }
-#mainMenu .logo { font-size: 38px; font-weight: 900; color: #f5a623; letter-spacing: 4px; text-shadow: 0 0 30px rgba(245,166,35,0.2); }
-#mainMenu .subtitle { color: #888; font-size: 13px; margin-bottom: 10px; }
+#mainMenu .logo { font-size: 36px; font-weight: 900; color: #f5a623; letter-spacing: 3px; }
+#mainMenu .subtitle { color: #888; font-size: 13px; margin-bottom: 6px; }
 #mainMenu .menu-btn {
     width: 100%; padding: 14px; font-size: 18px; font-weight: 700;
-    border: none; border-radius: 12px; cursor: pointer; touch-action: manipulation;
+    border: none; border-radius: 12px; cursor: pointer;
     background: #16213e; color: #e0e0e0; border: 2px solid #0f3460;
-    transition: 0.15s;
 }
 #mainMenu .menu-btn:active { transform: scale(0.96); }
 #mainMenu .menu-btn.primary { background: #e94560; border-color: #e94560; color: #fff; }
 
-/* ===== 游戏界面 ===== */
+/* 游戏界面 */
 #gameView {
     width: 100%;
     display: none;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    flex: 1;
     justify-content: center;
-    padding: 4px 0;
 }
 #gameView.active { display: flex; }
 .game-topbar {
@@ -83,8 +77,7 @@ html, body {
 .game-topbar .title { color: #e0e0e0; font-size: 16px; font-weight: 700; }
 .game-topbar .top-btn {
     background: #0f3460; color: #e0e0e0; border: none;
-    padding: 5px 12px; border-radius: 6px; font-size: 12px;
-    cursor: pointer; touch-action: manipulation;
+    padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer;
 }
 .game-topbar .top-btn:active { transform: scale(0.94); }
 .game-wrapper {
@@ -95,11 +88,7 @@ html, body {
     width: 100%;
     max-width: 400px;
 }
-.canvas-container {
-    position: relative;
-    flex-shrink: 0;
-    touch-action: none;
-}
+.canvas-container { position: relative; flex-shrink: 0; touch-action: none; }
 #gameCanvas {
     background: #0f0f1f;
     border: 3px solid #0f3460;
@@ -131,33 +120,29 @@ html, body {
 .stat-box .score { font-size: 20px; font-weight: bold; color: #f5a623; }
 .stat-box .highscore { font-size: 16px; font-weight: bold; color: #4fc3f7; }
 .next-box { padding: 4px; }
-.next-box canvas { margin: 2px auto; border: none; background: #0f0f1f; display: block; width: 100%; max-width: 80px; height: auto; aspect-ratio: 1 / 1; }
+.next-box canvas { margin: 2px auto; border: none; background: #0f0f1f; display: block; width: 100%; max-width: 80px; height: auto; aspect-ratio: 1/1; }
 
-/* ===== 虚拟键盘 ===== */
+/* 虚拟键盘 */
 #virtualKeyboard {
     display: none;
     gap: 4px;
     width: 100%;
     max-width: 320px;
     margin-top: 2px;
-    touch-action: none;
 }
 #virtualKeyboard.active { display: flex; flex-direction: column; }
 .vk-row { display: flex; gap: 4px; justify-content: center; }
 .vk-btn {
     background: #0f3460; color: white; border: none;
     padding: 12px 0; font-size: 22px; border-radius: 10px;
-    cursor: pointer; touch-action: none; flex: 1; min-height: 44px;
-    font-weight: bold; text-align: center; transition: 0.08s;
-    -webkit-touch-callout: none; position: relative;
+    cursor: pointer; flex: 1; min-height: 44px; font-weight: bold;
+    text-align: center; position: relative;
 }
 .vk-btn:active { background: #1a4f7a; transform: scale(0.92); }
 .vk-btn.wide { flex: 1.8; }
 .vk-btn .sub { font-size: 9px; display: block; color: #88aacc; }
-.vk-btn .hold-indicator { position: absolute; bottom: 2px; right: 6px; font-size: 10px; color: #f5a623; display: none; }
-.vk-btn.holding .hold-indicator { display: block; }
 
-/* ===== 圆形作弊钥匙 ===== */
+/* 作弊钥匙 */
 #cheatKey {
     position: fixed;
     bottom: 90px;
@@ -167,29 +152,27 @@ html, body {
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #f5a623, #c77d1e);
     border: 3px solid #f5a623;
-    box-shadow: 0 4px 20px rgba(245,166,35,0.4), inset 0 -3px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(245,166,35,0.4);
     display: none;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    touch-action: manipulation;
     z-index: 400;
     font-size: 28px;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
 }
-#cheatKey:active { transform: scale(0.88); }
+#cheatKey:active { transform: scale(0.85); }
 #cheatKey.show { display: flex; }
 #cheatKey .badge {
     position: absolute;
-    top: -4px;
-    right: -4px;
+    top: -6px;
+    right: -6px;
     background: #e94560;
     color: #fff;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     font-size: 10px;
     font-weight: 700;
     display: flex;
@@ -197,14 +180,14 @@ html, body {
     align-items: center;
     border: 2px solid #0a0a1a;
 }
-#cheatKey.pulse { animation: keyPulse 0.6s ease; }
+#cheatKey.pulse { animation: keyPulse 0.5s ease; }
 @keyframes keyPulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.25); box-shadow: 0 0 40px rgba(245,166,35,0.8); }
+    50% { transform: scale(1.3); box-shadow: 0 0 50px rgba(245,166,35,0.8); }
     100% { transform: scale(1); }
 }
 
-/* ===== 弹窗通用 ===== */
+/* ===== 弹窗 ===== */
 .overlay {
     position: fixed;
     top: 0; left: 0;
@@ -217,6 +200,15 @@ html, body {
     padding: 16px;
 }
 .overlay.active { display: flex; }
+
+/* 普通弹窗可点击外部关闭 */
+.overlay:not(#gameoverOverlay) { cursor: pointer; }
+.overlay:not(#gameoverOverlay) .modal-box { cursor: default; }
+
+/* GameOver 弹窗禁止点击外部关闭 */
+#gameoverOverlay { cursor: default; }
+#gameoverOverlay .modal-box { cursor: default; }
+
 .modal-box {
     background: #16213e;
     border-radius: 16px;
@@ -227,46 +219,49 @@ html, body {
     max-height: 85vh;
     overflow-y: auto;
 }
-.modal-box h2 { color: #f5a623; font-size: 22px; text-align: center; margin-bottom: 16px; }
+.modal-box h2 { color: #f5a623; font-size: 22px; text-align: center; margin-bottom: 14px; }
 .modal-box .modal-btn {
     width: 100%; padding: 12px; margin: 4px 0;
     font-size: 16px; font-weight: 600;
     border: none; border-radius: 10px;
-    cursor: pointer; touch-action: manipulation;
+    cursor: pointer;
     background: #0f3460; color: #e0e0e0;
 }
 .modal-box .modal-btn:active { transform: scale(0.96); }
 .modal-box .modal-btn.primary { background: #e94560; color: #fff; }
 .modal-box .modal-btn.danger { background: #6a1a2a; color: #ff6b6b; }
 
-/* ===== 设置 ===== */
-.setting-item { margin: 12px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
-.setting-item label { color: #e0e0e0; font-size: 14px; }
+/* 设置 - 速度双模式 */
+.setting-item { margin: 10px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+.setting-item label { color: #e0e0e0; font-size: 14px; min-width: 70px; }
 .setting-item input[type="range"] { flex: 1; min-width: 100px; accent-color: #e94560; height: 4px; }
-.setting-item .value { color: #f5a623; font-weight: bold; min-width: 40px; text-align: right; }
+.setting-item .value { color: #f5a623; font-weight: bold; min-width: 50px; text-align: right; }
 .setting-item select { background: #0f0f1f; color: #e0e0e0; border: 2px solid #0f3460; padding: 5px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+.setting-item input[type="number"] {
+    background: #0f0f1f;
+    color: #e0e0e0;
+    border: 2px solid #0f3460;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 80px;
+}
+.speed-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.speed-row .value { min-width: 60px; }
 
-/* ===== 帮助 ===== */
-.help-section { margin-bottom: 12px; }
-.help-section h3 { color: #4fc3f7; font-size: 14px; margin-bottom: 3px; }
+/* 帮助 */
+.help-section { margin-bottom: 10px; }
+.help-section h3 { color: #4fc3f7; font-size: 14px; margin-bottom: 2px; }
 .help-section p, .help-section li { color: #ccc; font-size: 13px; line-height: 1.6; }
 .help-section ul { padding-left: 16px; list-style: none; }
 .help-section ul li::before { content: "▸ "; color: #e94560; }
 .help-section kbd { background: #0f0f1f; padding: 1px 8px; border-radius: 4px; color: #ddd; font-family: monospace; font-size: 12px; border: 1px solid #333; }
 .help-divider { border: none; border-top: 1px solid #1a1a3e; margin: 10px 0; }
 
-/* ===== 作弊菜单（圆形展开） ===== */
-#cheatMenuOverlay {
-    z-index: 600;
-}
-#cheatMenuOverlay .modal-box {
-    border-color: #f5a623;
-    max-width: 340px;
-}
-#cheatMenuOverlay .modal-box h2 {
-    color: #f5a623;
-}
-.cheat-box label { color: #e0e0e0; display: block; margin: 8px 0 3px; font-size: 13px; }
+/* 作弊菜单 */
+#cheatMenuOverlay .modal-box { border-color: #f5a623; }
+#cheatMenuOverlay .modal-box h2 { color: #f5a623; }
+.cheat-box label { color: #e0e0e0; display: block; margin: 6px 0 3px; font-size: 13px; }
 .cheat-box input[type="number"] { width: 100%; padding: 8px; background: #0f0f1f; border: 2px solid #0f3460; color: white; border-radius: 6px; font-size: 14px; }
 .cheat-box input[type="checkbox"] { width: 18px; height: 18px; margin-left: 8px; cursor: pointer; }
 .cheat-box textarea { width: 100%; height: 60px; background: #0f0f1f; border: 2px solid #0f3460; color: #0f0; border-radius: 6px; padding: 6px; font-family: monospace; font-size: 11px; resize: vertical; }
@@ -275,14 +270,13 @@ html, body {
 .cheat-box .cheat-btn.danger { background: #e94560; }
 .cheat-box .cheat-note { color: #666; font-size: 11px; text-align: center; margin-top: 8px; }
 
-/* ===== Game Over ===== */
-#gameoverOverlay { z-index: 550; }
+/* Game Over */
 #gameoverOverlay .modal-box { border-color: #e94560; }
 #gameoverOverlay .modal-box h2 { color: #e94560; font-size: 28px; }
 #gameoverOverlay .final-score { color: #e0e0e0; text-align: center; font-size: 18px; margin: 10px 0 16px; }
 #gameoverOverlay .final-score span { color: #f5a623; font-weight: 700; font-size: 24px; }
 
-/* ===== 微信彩蛋 ===== */
+/* 微信彩蛋 */
 #wechatEasterEgg {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.95); display: none; justify-content: center;
@@ -294,28 +288,21 @@ html, body {
 #wechatEasterEgg .egg-title { color: #e94560; font-size: 28px; font-weight: 900; text-align: center; }
 #wechatEasterEgg .egg-desc { color: #aaa; font-size: 16px; text-align: center; max-width: 360px; line-height: 1.7; }
 #wechatEasterEgg .egg-desc .highlight { color: #f5a623; font-weight: 700; }
-#wechatEasterEgg .egg-btn { padding: 12px 32px; background: #e94560; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; touch-action: manipulation; min-width: 200px; }
+#wechatEasterEgg .egg-btn { padding: 12px 32px; background: #e94560; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; min-width: 200px; }
 #wechatEasterEgg .egg-btn:active { transform: scale(0.95); }
 #wechatEasterEgg .egg-btn.secondary { background: #0f3460; border: 2px solid #0f3460; }
 
-/* ===== 响应式 ===== */
+/* 响应式 */
 @media (max-width: 420px) {
-    #app { padding: 4px; gap: 4px; }
-    .game-wrapper { gap: 8px; }
     #gameCanvas { max-width: 220px; }
     .info-panel { max-width: 90px; min-width: 70px; }
-    .info-panel .stat-box { padding: 4px 6px; }
     .info-panel .stat-box .score { font-size: 16px; }
     .info-panel .stat-box .highscore { font-size: 13px; }
     .info-panel .next-box canvas { max-width: 60px; }
     #virtualKeyboard { max-width: 260px; }
     .vk-btn { font-size: 18px; min-height: 38px; padding: 8px 0; }
-    .game-topbar .title { font-size: 14px; }
-    .game-topbar .top-btn { font-size: 11px; padding: 4px 10px; }
-    #mainMenu .logo { font-size: 30px; }
-    #mainMenu .menu-btn { padding: 12px; font-size: 16px; }
-    .modal-box { padding: 18px 14px; }
     #cheatKey { width: 48px; height: 48px; font-size: 22px; bottom: 80px; right: 12px; }
+    .setting-item input[type="number"] { width: 60px; }
 }
 @media (max-width: 360px) {
     #gameCanvas { max-width: 180px; }
@@ -326,7 +313,6 @@ html, body {
 }
 @media (min-width: 601px) {
     #virtualKeyboard { display: none !important; }
-    #cheatKey { display: none !important; }
 }
 </style>
 </head>
@@ -334,7 +320,7 @@ html, body {
 
 <div id="app">
 
-    <!-- ===== 微信彩蛋 ===== -->
+    <!-- 微信彩蛋 -->
     <div id="wechatEasterEgg">
         <div class="egg-icon">🐧</div>
         <div class="egg-title">⚠️ 你访问的可能是盗版</div>
@@ -343,7 +329,7 @@ html, body {
         <button class="egg-btn secondary" onclick="copyAndOpenBrowser()">📋 复制链接用浏览器打开</button>
     </div>
 
-    <!-- ===== 主界面 ===== -->
+    <!-- 主菜单 -->
     <div id="mainMenu">
         <div class="logo">俄罗斯方块</div>
         <div class="subtitle">经典永不过时</div>
@@ -352,7 +338,7 @@ html, body {
         <button class="menu-btn" onclick="openHelp()">❓ 帮助</button>
     </div>
 
-    <!-- ===== 游戏界面 ===== -->
+    <!-- 游戏界面 -->
     <div id="gameView">
         <div class="game-topbar">
             <span class="title">俄罗斯方块</span>
@@ -368,7 +354,6 @@ html, body {
                 <div class="stat-box next-box"><div class="label">下一个</div><canvas id="nextCanvas" width="120" height="120"></canvas></div>
             </div>
         </div>
-        <!-- 虚拟键盘 -->
         <div id="virtualKeyboard">
             <div class="vk-row">
                 <button class="vk-btn" data-action="left">←</button>
@@ -377,19 +362,19 @@ html, body {
                 <button class="vk-btn" data-action="right">→</button>
             </div>
             <div class="vk-row">
-                <button class="vk-btn wide" id="vkDown" data-action="down">↓ <span class="sub">加速</span><span class="hold-indicator">⏱</span></button>
+                <button class="vk-btn wide" data-action="down">↓ <span class="sub">加速</span></button>
                 <button class="vk-btn wide" data-action="drop">⤓ <span class="sub">落底</span></button>
             </div>
         </div>
     </div>
 
-    <!-- ===== 圆形作弊钥匙 ===== -->
+    <!-- 作弊钥匙 -->
     <div id="cheatKey" onclick="openCheatMenu()">
         🔑
-        <span class="badge" id="cheatBadge">0/5</span>
+        <span class="badge" id="cheatBadge">0/3</span>
     </div>
 
-    <!-- ===== Game Over 弹窗 ===== -->
+    <!-- Game Over -->
     <div class="overlay" id="gameoverOverlay">
         <div class="modal-box">
             <h2>💀 你死了！</h2>
@@ -399,7 +384,7 @@ html, body {
         </div>
     </div>
 
-    <!-- ===== 暂停 ===== -->
+    <!-- 暂停 -->
     <div class="overlay" id="pauseOverlay">
         <div class="modal-box">
             <h2>⏸ 暂停</h2>
@@ -410,14 +395,21 @@ html, body {
         </div>
     </div>
 
-    <!-- ===== 设置 ===== -->
+    <!-- 设置 - 速度双模式 -->
     <div class="overlay" id="settingsOverlay">
         <div class="modal-box">
             <h2>⚙ 设置</h2>
             <div class="setting-item">
                 <label>下落速度</label>
-                <input type="range" id="speedSlider" min="200" max="1000" step="50" value="500">
-                <span class="value" id="speedValue">500ms</span>
+                <div class="speed-row">
+                    <input type="range" id="speedSlider" min="100" max="2000" step="50" value="500">
+                    <input type="number" id="speedNumber" value="500" min="50" max="5000" step="10">
+                    <select id="speedUnit">
+                        <option value="ms">毫秒</option>
+                        <option value="s">秒</option>
+                    </select>
+                    <span class="value" id="speedDisplay">500ms</span>
+                </div>
             </div>
             <div class="setting-item">
                 <label>设备模式</label>
@@ -431,10 +423,10 @@ html, body {
         </div>
     </div>
 
-    <!-- ===== 帮助 ===== -->
+    <!-- 帮助 -->
     <div class="overlay" id="helpOverlay">
         <div class="modal-box">
-            <button style="position:sticky;top:0;float:right;background:none;border:none;color:#888;font-size:24px;cursor:pointer;z-index:10;" onclick="closeHelp()">✕</button>
+            <button style="float:right;background:none;border:none;color:#888;font-size:24px;cursor:pointer;" onclick="closeHelp()">✕</button>
             <h2>🎮 游戏玩法</h2>
             <div class="help-section"><h3>🎯 目标</h3><p>控制下落的七种方块，填满整行即可消除并获取分数。</p></div>
             <div class="help-section"><h3>⌨️ 键盘操作</h3><ul><li><kbd>←</kbd> <kbd>→</kbd> 移动</li><li><kbd>↑</kbd> 旋转</li><li><kbd>↓</kbd> 加速下落</li><li><kbd>Space</kbd> 落底</li><li><kbd>P</kbd> 暂停</li></ul></div>
@@ -445,15 +437,15 @@ html, body {
         </div>
     </div>
 
-    <!-- ===== 作弊菜单（圆形展开） ===== -->
+    <!-- 作弊菜单 -->
     <div class="overlay" id="cheatMenuOverlay">
         <div class="modal-box cheat-box">
             <h2>🔑 作弊菜单</h2>
             <label>无尽模式 <input type="checkbox" id="endlessMode"></label>
             <label>增加分数 <input type="number" id="addScore" value="100" min="1"></label>
-            <button class="cheat-btn" onclick="addCheatScore()">+ 增加分数（不计入最高分）</button>
+            <button class="cheat-btn" onclick="addCheatScore()">+ 增加分数</button>
             <label>自定义脚本 <textarea id="customScript" placeholder="// 写JS代码&#10;score += 1000; updateScore();"></textarea></label>
-            <button class="cheat-btn" onclick="runCheatScript()">⚡ 执行脚本（不计入最高分）</button>
+            <button class="cheat-btn" onclick="runCheatScript()">⚡ 执行脚本</button>
             <button class="cheat-btn danger" onclick="closeCheatMenu()">✖ 关闭</button>
             <div class="cheat-note">⚡ 作弊所得分数不会计入最高纪录</div>
         </div>
@@ -461,15 +453,13 @@ html, body {
 </div>
 
 <script>
-// ============================================================
-// 微信检测
-// ============================================================
+// ==================== 微信检测 ====================
 function isWechat(){return/MicroMessenger/i.test(navigator.userAgent);}
 if(isWechat()){setTimeout(()=>{document.getElementById('wechatEasterEgg').classList.add('active');},300);}
 function forceCloseEgg(){document.getElementById('wechatEasterEgg').classList.remove('active');}
 function copyAndOpenBrowser(){
     const url=window.location.href;
-    if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{alert('✅ 链接已复制！请打开浏览器粘贴访问');}).catch(()=>{fallbackCopy(url);});}
+    if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{alert('✅ 链接已复制！');}).catch(()=>{fallbackCopy(url);});}
     else{fallbackCopy(url);}
 }
 function fallbackCopy(text){
@@ -480,9 +470,7 @@ function fallbackCopy(text){
     document.body.removeChild(ta);
 }
 
-// ============================================================
-// 设备检测
-// ============================================================
+// ==================== 设备检测 ====================
 let forcedDevice=null;
 function detectUA(){
     const ua=navigator.userAgent;
@@ -499,14 +487,8 @@ function getCurrentDevice(){
 function updateDeviceUI(){
     const device=getCurrentDevice();
     const kb=document.getElementById('virtualKeyboard');
-    const key=document.getElementById('cheatKey');
-    if(device==='mobile'){
-        kb.classList.add('active');
-        key.classList.add('show');
-    }else{
-        kb.classList.remove('active');
-        key.classList.remove('show');
-    }
+    if(device==='mobile')kb.classList.add('active');
+    else kb.classList.remove('active');
     const sel=document.getElementById('deviceSelect');
     if(sel){if(forcedDevice)sel.value=forcedDevice;else sel.value='auto';}
     setupTouchEvents();
@@ -517,22 +499,93 @@ document.getElementById('deviceSelect')?.addEventListener('change',function(){
     updateDeviceUI();
 });
 
-// ============================================================
-// 界面控制
-// ============================================================
+// ==================== 速度双模式 ====================
+function getSpeedValue(){
+    const unit=document.getElementById('speedUnit').value;
+    const val=parseFloat(document.getElementById('speedNumber').value)||500;
+    if(unit==='s') return Math.round(val*1000);
+    return Math.round(val);
+}
+
+function updateSpeedDisplay(){
+    const unit=document.getElementById('speedUnit').value;
+    const val=parseFloat(document.getElementById('speedNumber').value)||500;
+    const display=document.getElementById('speedDisplay');
+    const slider=document.getElementById('speedSlider');
+    if(unit==='s'){
+        display.textContent=val+'s';
+        slider.max=5;slider.step=0.1;slider.value=val;
+    }else{
+        display.textContent=val+'ms';
+        slider.max=2000;slider.step=50;slider.value=val;
+    }
+}
+
+// 滑块 → 数字
+document.getElementById('speedSlider')?.addEventListener('input',function(){
+    const unit=document.getElementById('speedUnit').value;
+    const val=parseFloat(this.value);
+    if(unit==='s'){
+        document.getElementById('speedNumber').value=val;
+    }else{
+        document.getElementById('speedNumber').value=Math.round(val);
+    }
+    updateSpeedDisplay();
+    if(gameStarted && !gameOver && !isPaused){
+        fallSpeed=getSpeedValue();
+        startFallTimer();
+    }
+});
+
+// 数字 → 滑块
+document.getElementById('speedNumber')?.addEventListener('input',function(){
+    const unit=document.getElementById('speedUnit').value;
+    const val=parseFloat(this.value)||0;
+    const slider=document.getElementById('speedSlider');
+    if(unit==='s'){
+        if(val>=0.1&&val<=5)slider.value=val;
+    }else{
+        if(val>=50&&val<=5000)slider.value=val;
+    }
+    updateSpeedDisplay();
+    if(gameStarted && !gameOver && !isPaused){
+        fallSpeed=getSpeedValue();
+        startFallTimer();
+    }
+});
+
+// 单位切换
+document.getElementById('speedUnit')?.addEventListener('change',function(){
+    const unit=this.value;
+    const num=document.getElementById('speedNumber');
+    const val=parseFloat(num.value)||500;
+    if(unit==='s'){
+        num.value=(val/1000).toFixed(1);
+        num.step=0.1;
+        document.getElementById('speedSlider').max=5;
+        document.getElementById('speedSlider').step=0.1;
+    }else{
+        num.value=Math.round(val*1000);
+        num.step=10;
+        document.getElementById('speedSlider').max=2000;
+        document.getElementById('speedSlider').step=50;
+    }
+    updateSpeedDisplay();
+    if(gameStarted && !gameOver && !isPaused){
+        fallSpeed=getSpeedValue();
+        startFallTimer();
+    }
+});
+
+// ==================== 界面控制 ====================
 let gameStarted=false;
-let cheatClickCount=0;
-let isCheating=false; // 标记是否作弊过，用于阻止高分
 
 function startGame(){
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('gameView').classList.add('active');
-    const speed=parseInt(document.getElementById('speedSlider').value)||500;
-    fallSpeed=speed;
+    fallSpeed=getSpeedValue();
     gameStarted=true;
-    cheatClickCount=0;
-    isCheating=false;
-    updateCheatBadge();
+    resetCheatTrigger();
     resetGame();
     updateDeviceUI();
 }
@@ -542,23 +595,20 @@ function quitGame(){
     isPaused=false;
     gameOver=false;
     gameStarted=false;
-    cheatClickCount=0;
-    isCheating=false;
-    updateCheatBadge();
+    resetCheatTrigger();
     document.getElementById('pauseOverlay').classList.remove('active');
     document.getElementById('gameoverOverlay').classList.remove('active');
     document.getElementById('gameView').classList.remove('active');
     document.getElementById('mainMenu').classList.remove('hidden');
     document.getElementById('cheatMenuOverlay').classList.remove('active');
-    document.getElementById('cheatKey').classList.remove('show');
+    document.getElementById('settingsOverlay').classList.remove('active');
+    document.getElementById('helpOverlay').classList.remove('active');
 }
 
 function openSettings(){
-    if(gameStarted && !gameOver){
-        if(!isPaused){
-            isPaused=true;
-            if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
-        }
+    if(gameStarted && !gameOver && !isPaused){
+        isPaused=true;
+        if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
     }
     document.getElementById('settingsOverlay').classList.add('active');
 }
@@ -573,40 +623,57 @@ function openHelp(){document.getElementById('helpOverlay').classList.add('active
 function closeHelp(){document.getElementById('helpOverlay').classList.remove('active');}
 function closePause(){document.getElementById('pauseOverlay').classList.remove('active');}
 
-// ============================================================
-// 作弊钥匙（点击方块5次触发）
-// ============================================================
-function updateCheatBadge(){
-    document.getElementById('cheatBadge').textContent = cheatClickCount + '/5';
+// ==================== 作弊触发 ====================
+let cheatTriggerCount=0;
+let cheatUnlocked=false;
+let isCheating=false;
+const CHEAT_KEY_COUNT=3;
+const CHEAT_CLICK_COUNT=5;
+
+function resetCheatTrigger(){
+    cheatTriggerCount=0;
+    cheatUnlocked=false;
+    isCheating=false;
+    document.getElementById('cheatKey').classList.remove('show');
+    updateCheatBadge();
 }
 
-function triggerCheatClick(){
-    if(gameOver || !gameStarted) return;
-    cheatClickCount++;
+function updateCheatBadge(){
+    const badge=document.getElementById('cheatBadge');
+    const device=getCurrentDevice();
+    const max=device==='mobile'?CHEAT_CLICK_COUNT:CHEAT_KEY_COUNT;
+    if(cheatUnlocked){
+        badge.textContent='✓';
+    }else{
+        badge.textContent=cheatTriggerCount+'/'+max;
+    }
+}
+
+function triggerCheatProgress(){
+    if(cheatUnlocked || gameOver || !gameStarted) return;
+    cheatTriggerCount++;
+    const device=getCurrentDevice();
+    const max=device==='mobile'?CHEAT_CLICK_COUNT:CHEAT_KEY_COUNT;
     updateCheatBadge();
-    // 闪一下动画
-    const key=document.getElementById('cheatKey');
-    key.classList.remove('pulse');
-    void key.offsetWidth;
-    key.classList.add('pulse');
-    if(cheatClickCount>=5){
-        openCheatMenu();
-        cheatClickCount=0;
+    if(cheatTriggerCount>=max){
+        cheatUnlocked=true;
+        const key=document.getElementById('cheatKey');
+        key.classList.add('show');
+        key.classList.remove('pulse');
+        void key.offsetWidth;
+        key.classList.add('pulse');
         updateCheatBadge();
     }
 }
 
 function openCheatMenu(){
+    if(!cheatUnlocked) return;
     document.getElementById('cheatMenuOverlay').classList.add('active');
 }
-
 function closeCheatMenu(){
     document.getElementById('cheatMenuOverlay').classList.remove('active');
 }
 
-// ============================================================
-// 作弊功能（不计入最高分）
-// ============================================================
 function addCheatScore(){
     if(gameOver || !gameStarted) return;
     const add=parseInt(document.getElementById('addScore').value)||0;
@@ -615,7 +682,6 @@ function addCheatScore(){
     updateScoreUI();
     draw();
 }
-
 function runCheatScript(){
     if(gameOver || !gameStarted) return;
     try{
@@ -625,42 +691,26 @@ function runCheatScript(){
         draw();
     }catch(e){alert('脚本错误: '+e.message);}
 }
+document.getElementById('endlessMode').addEventListener('change',function(e){
+    endlessMode=e.target.checked;
+});
 
-// 重写updateScore，检查是否作弊
-function updateScoreUI(){
-    scoreDisplay.textContent=score;
-    // 作弊分数不更新最高分
-    if(!isCheating && score>highScore){
-        highScore=score;
-        localStorage.setItem(HIGH_SCORE_KEY, highScore.toString());
-        highScoreDisplay.textContent=highScore;
-    }
-}
-
-// ============================================================
-// Game Over
-// ============================================================
+// ==================== Game Over ====================
 function showGameOver(){
     document.getElementById('finalScoreDisplay').textContent=score;
     document.getElementById('gameoverOverlay').classList.add('active');
 }
-
 function restartAfterDeath(){
     document.getElementById('gameoverOverlay').classList.remove('active');
-    isCheating=false;
-    cheatClickCount=0;
-    updateCheatBadge();
+    resetCheatTrigger();
     resetGame();
 }
-
 function backToMenuAfterDeath(){
     document.getElementById('gameoverOverlay').classList.remove('active');
     quitGame();
 }
 
-// ============================================================
-// 暂停
-// ============================================================
+// ==================== 暂停 ====================
 let isPaused=false;
 function togglePause(){
     if(gameOver)return;
@@ -678,20 +728,7 @@ function resumeGame(){
     if(!gameOver)startFallTimer();
 }
 
-// ============================================================
-// 速度
-// ============================================================
-document.getElementById('speedSlider')?.addEventListener('input',function(){
-    document.getElementById('speedValue').textContent=this.value+'ms';
-    if(gameStarted && !gameOver && !isPaused){
-        fallSpeed=parseInt(this.value);
-        startFallTimer();
-    }
-});
-
-// ============================================================
-// 游戏核心
-// ============================================================
+// ==================== 游戏核心 ====================
 const COLS=10,ROWS=20,BLOCK_SIZE=30,EMPTY=0;
 const HIGH_SCORE_KEY='tetris_high_score';
 const SHAPES=[
@@ -776,6 +813,14 @@ function draw(){
     nextCtx.clearRect(0,0,nextCanvas.width,nextCanvas.height);
     if(nextPiece){const bs=25,m=nextPiece.matrix,cols=m[0].length,rows=m.length,ox=(nextCanvas.width-cols*bs)/2,oy=(nextCanvas.height-rows*bs)/2;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)if(m[r][c]!==0){nextCtx.fillStyle=nextPiece.color;nextCtx.shadowBlur=10;nextCtx.shadowColor=nextPiece.color;nextCtx.fillRect(ox+c*bs,oy+r*bs,bs-1,bs-1);nextCtx.shadowBlur=0;}}
 }
+function updateScoreUI(){
+    scoreDisplay.textContent=score;
+    if(!isCheating && score>highScore){
+        highScore=score;
+        localStorage.setItem(HIGH_SCORE_KEY, highScore.toString());
+        highScoreDisplay.textContent=highScore;
+    }
+}
 function startFallTimer(){
     if(fallInterval)clearInterval(fallInterval);
     if(!gameOver&&!isPaused){
@@ -787,7 +832,7 @@ function startFallTimer(){
 function resetGame(){
     if(fallInterval){clearInterval(fallInterval);fallInterval=null;}
     initBoard();score=0;gameOver=false;isPaused=false;endlessMode=false;
-    isCheating=false;cheatClickCount=0;updateCheatBadge();
+    isCheating=false;
     document.getElementById('endlessMode').checked=false;
     document.getElementById('gameoverOverlay').classList.remove('active');
     document.getElementById('pauseOverlay').classList.remove('active');
@@ -796,9 +841,7 @@ function resetGame(){
 }
 document.getElementById('endlessMode').addEventListener('change',function(e){endlessMode=e.target.checked;});
 
-// ============================================================
-// 键盘
-// ============================================================
+// ==================== 键盘 ====================
 document.addEventListener('keydown',(e)=>{
     if(e.key==='Escape'){
         if(document.getElementById('cheatMenuOverlay').classList.contains('active'))closeCheatMenu();
@@ -811,9 +854,8 @@ document.addEventListener('keydown',(e)=>{
         if(e.key==='Enter'||e.key===' '){resetGame();e.preventDefault();}
         return;
     }
-    // 桌面端C键作弊
     if((e.key==='c'||e.key==='C')&&getCurrentDevice()==='desktop'){
-        if(!document.getElementById('cheatMenuOverlay').classList.contains('active'))openCheatMenu();
+        if(!document.getElementById('cheatMenuOverlay').classList.contains('active'))triggerCheatProgress();
         return;
     }
     switch(e.key){
@@ -826,9 +868,7 @@ document.addEventListener('keydown',(e)=>{
     }
 });
 
-// ============================================================
-// 触控 + 点击方块触发作弊
-// ============================================================
+// ==================== 触控 ====================
 let touchStartX=0,touchStartY=0,touchMoved=false;
 function setupTouchEvents(){
     canvas.removeEventListener('touchstart',handleTouchStart);
@@ -866,18 +906,14 @@ function handleTouchMove(e){
 }
 function handleTouchEnd(e){
     e.preventDefault();
-    // 如果没有滑动，视为点击 → 触发作弊计数
     if(!touchMoved&&touchStartX&&touchStartY&&!gameOver&&!isPaused){
         rotatePiece();
-        // 点击方块触发作弊计数（手机端）
-        triggerCheatClick();
+        triggerCheatProgress();
     }
     touchStartX=0;touchStartY=0;
 }
 
-// ============================================================
 // 虚拟键盘
-// ============================================================
 let holdInterval=null;
 document.querySelectorAll('.vk-btn').forEach(btn=>{
     const action=btn.dataset.action;
@@ -888,7 +924,6 @@ document.querySelectorAll('.vk-btn').forEach(btn=>{
         else if(action==='right')movePiece(1,0);
         else if(action==='down'){
             movePiece(0,1);
-            btn.classList.add('holding');
             if(holdInterval)clearInterval(holdInterval);
             holdInterval=setInterval(()=>{
                 if(!gameOver&&!isPaused&&currentPiece)movePiece(0,1);
@@ -902,7 +937,6 @@ document.querySelectorAll('.vk-btn').forEach(btn=>{
     const endFn=(e)=>{
         e.preventDefault();
         if(action==='down'){
-            btn.classList.remove('holding');
             if(holdInterval){clearInterval(holdInterval);holdInterval=null;}
         }
     };
@@ -914,9 +948,7 @@ document.querySelectorAll('.vk-btn').forEach(btn=>{
     btn.addEventListener('mouseleave',endFn);
 });
 
-// ============================================================
-// 启动
-// ============================================================
+// ==================== 启动 ====================
 updateDeviceUI();
 setupTouchEvents();
 document.getElementById('mainMenu').classList.remove('hidden');
@@ -926,15 +958,9 @@ document.addEventListener('keydown',(e)=>{
     if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();
 },{passive:false});
 
-document.querySelectorAll('.overlay').forEach(el=>{
+// 普通弹窗点击外部关闭，GameOver 不关闭
+document.querySelectorAll('.overlay:not(#gameoverOverlay)').forEach(el=>{
     el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active');});
-});
-
-// 点击画布触发作弊计数（PC端鼠标点击）
-canvas.addEventListener('click', function(e){
-    if(getCurrentDevice()==='desktop' && !gameOver && gameStarted){
-        triggerCheatClick();
-    }
 });
 </script>
 </body>
